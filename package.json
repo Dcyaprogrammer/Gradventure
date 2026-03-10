@@ -6,9 +6,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "python3 -m http.server 8000",
-    "start": "bun run dev",
-    "preview": "python3 -m http.server 8000"
+    "dev": "bun --hot run dev.ts",
+    "start": "bun run dev"
   },
   "devDependencies": {
     "@types/bun": "latest"

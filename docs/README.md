@@ -1,72 +1,110 @@
-# HCI Process Portfolio - Vercel-inspired Neo-Brutalist Design
+# 📘 Content Editing Guide
 
-This portfolio documents the iterative design process for the HCI group project. It has been redesigned using **Astro** and **Tailwind CSS** to provide a fast, performant, and minimalist experience.
+Welcome to the HCI Portfolio project! This guide will help you add text, images, and new sections to our portfolio website.
 
-## Design Philosophy
+## 📂 Where are the files?
 
-- **Neo-Brutalist:** Strong lines, no rounded corners (`rounded-none`), high contrast.
-- **Vercel-inspired:** Dark mode by default, clean typography (Inter & JetBrains Mono), grid patterns.
-- **Minimalist:** Focus on content and process documentation.
+All the content pages are located in `src/pages/`. Here is the map:
 
-## Project Structure
+| Page on Website | File to Edit | Description |
+|----------------|--------------|-------------|
+| **Home** | `src/pages/index.astro` | The landing page, hero section, and mission statement. |
+| **Brainstorm** | `src/pages/brainstorm.astro` | Problem space, ideation, mind maps, sketches. |
+| **Process** | `src/pages/process.astro` | Information architecture, wireframes, user flows. |
+| **Prototypes** | `src/pages/prototypes.astro` | Low-fi and Hi-fi prototypes, interactive demos. |
+| **Testing** | `src/pages/testing.astro` | User testing sessions, feedback, and iterations. |
+| **Reflection** | `src/pages/reflection.astro` | Final thoughts, what we learned, future steps. |
 
-- `src/pages/`: Contains the individual pages of the portfolio.
-  - `index.astro`: Home page.
-  - `brainstorm.astro`: Brainstorming & Ideation.
-  - `process.astro`: Design Process (Wireframes, User Flows).
-  - `prototypes.astro`: Interactive Prototypes.
-  - `testing.astro`: User Testing & Results.
-  - `reflection.astro`: Project Reflection & Future Steps.
-- `src/components/`: Reusable UI components.
-  - `Card.astro`: For grid layouts.
-  - `Hero.astro`: Large introductory sections.
-  - `Section.astro`: Standard content sections with consistent spacing.
-  - `PageHeader.astro`: Headers for internal pages.
-- `src/layouts/Layout.astro`: Main layout file containing the Navbar and Footer.
-- `src/styles/global.css`: Global styles, including custom Tailwind configuration.
+---
 
-## Getting Started
+## ✏️ How to Add Text
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+To add text, find the file you want to edit (e.g., `src/pages/brainstorm.astro`) and look for the `<Section>` tags. You can add standard HTML tags like `<p>`, `<h3>`, `<ul>` inside.
 
-2.  **Start the development server:**
+### Example 1: Adding a Paragraph
+```html
+<Section title="User Persona">
+    <h3 class="text-xl font-bold text-white mb-4">Meet Sarah, the Student</h3>
+    <p class="text-neutral-400 leading-relaxed mb-4">
+        Sarah is a 20-year-old sophomore who wants to study abroad but feels overwhelmed by the application process. She needs a way to track her deadlines and requirements in one place.
+    </p>
+</Section>
+```
+
+### Example 2: Adding a List
+```html
+<Section title="Key Findings">
+    <ul class="list-disc list-inside text-neutral-400 space-y-2">
+        <li>Students prefer mobile-first experiences.</li>
+        <li>Gamification increases engagement by 40%.</li>
+        <li>Clear progress tracking is essential.</li>
+    </ul>
+</Section>
+```
+
+---
+
+## 🖼️ How to Add Images
+
+Adding images requires two steps: placing the file and linking it correctly.
+
+### Step 1: Place the Image
+Put your image files (JPG, PNG, SVG) into the `public/` folder.
+*   Example: `public/persona-sarah.png`
+*   Example: `public/wireframes/home-v1.png`
+
+### Step 2: Link the Image in Code
+**CRITICAL:** You must use `${import.meta.env.BASE_URL}` before the image path. This ensures the image loads correctly on GitHub Pages.
+
+```html
+<!-- Example: Basic Image -->
+<img 
+    src={`${import.meta.env.BASE_URL}persona-sarah.png`} 
+    alt="User Persona: Sarah" 
+    class="w-full h-auto border border-neutral-800 rounded-none" 
+/>
+
+<!-- Example: Image inside a Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+        <h3 class="text-white mb-2">Sketch V1</h3>
+        <img 
+            src={`${import.meta.env.BASE_URL}sketches/sketch-01.png`} 
+            alt="Initial Sketch" 
+            class="w-full border border-neutral-800" 
+        />
+    </div>
+    <div>
+        <h3 class="text-white mb-2">Sketch V2</h3>
+        <img 
+            src={`${import.meta.env.BASE_URL}sketches/sketch-02.png`} 
+            alt="Refined Sketch" 
+            class="w-full border border-neutral-800" 
+        />
+    </div>
+</div>
+```
+
+---
+
+## 🚀 How to Preview Your Changes
+
+Before you push your changes to GitHub, you should check them locally.
+
+1.  **Open Terminal** in the `docs/` folder.
+2.  **Run the dev server:**
     ```bash
     npm run dev
     ```
+3.  **Open the link** shown in the terminal (usually `http://localhost:4321/ApplicationWeb/`).
+4.  **Edit files**, save, and the browser will update automatically!
 
-3.  **Build for production:**
-    ```bash
-    npm run build
-    ```
+---
 
-## Deployment
+## 🎨 Style Guide (Quick Reference)
 
-This project is configured to deploy to **GitHub Pages** using GitHub Actions.
-
-1.  Push your changes to the `main` branch.
-2.  Go to your repository on GitHub.
-3.  Navigate to **Settings** > **Pages**.
-4.  Under **Build and deployment** > **Source**, select **GitHub Actions**.
-5.  The deployment will trigger automatically.
-
-**Important:** If your site is hosted at `username.github.io/repo-name/`, you must update `astro.config.mjs`:
-```js
-export default defineConfig({
-  site: 'https://username.github.io',
-  base: '/repo-name', // Add your repository name here
-  // ...
-});
-```
-
-## Customization
-
-- **Colors & Fonts:** Modify `src/styles/global.css`.
-- **Navigation:** Update the `navItems` array in `src/layouts/Layout.astro`.
-- **Content:** Edit the `.astro` files in `src/pages/` to add your specific project content.
-
-## Backup
-
-The original project files are safely backed up in `docs/_backup/`.
+*   **Headings:** Use `<h3 class="text-white font-bold">` for subtitles.
+*   **Body Text:** Use `<p class="text-neutral-400">` for standard text.
+*   **Accent Color:** Use `text-brand-accent` (Blue) for highlights.
+*   **Borders:** Use `border border-neutral-800` (or `border-border-dark`) for subtle outlines.
+*   **Backgrounds:** Use `bg-neutral-900` (or `bg-bg-darker`) for card backgrounds.

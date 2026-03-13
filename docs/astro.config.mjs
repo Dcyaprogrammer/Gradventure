@@ -7,6 +7,10 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://dcyaprogrammer.github.io',
   base: '/ApplicationWeb',
+  trailingSlash: 'always',
+  build: {
+    format: 'directory'
+  },
   vite: {
     plugins: [tailwindcss()]
   }

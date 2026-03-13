@@ -5,79 +5,80 @@ import Section from '../components/Section.astro';
 import Card from '../components/Card.astro';
 
 const base = import.meta.env.BASE_URL;
+const normalizedBase = base.endsWith('/') ? base : `${base}/`;
 ---
 
 <Layout title="HCI Portfolio | Home">
-        <Hero 
-            title="Human-Computer Interaction" 
-            subtitle="A process portfolio documenting the iterative design journey of our game-based learning platform."
-            tag="Course Project 2026"
-            primaryAction={{ text: "Explore the Process", href: `${base}process` }}
-            secondaryAction={{ text: "View Prototypes", href: `${base}prototypes` }}
-        />
+    <Hero 
+        title="Human-Computer Interaction" 
+        subtitle="A process portfolio documenting the iterative design journey of our game-based learning platform."
+        tag="Course Project 2026"
+        primaryAction={{ text: "Explore the Process", href: `${normalizedBase}process/` }}
+        secondaryAction={{ text: "View Prototypes", href: `${normalizedBase}prototypes/` }}
+    />
 
-        <Section title="Design Journey" subtitle="From initial concepts to final validation.">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border-dark border border-border-dark">
-                <div class="bg-bg-darker">
-                    <Card 
-                        title="Brainstorming" 
-                        body="Initial ideation, problem definition, and market research."
-                        href={`${base}brainstorm`}
-                        icon="💡"
-                    />
-                </div>
-                <div class="bg-bg-darker">
-                    <Card 
-                        title="Design Process" 
-                        body="Wireframing, information architecture, and design decisions."
-                        href={`${base}process`}
-                        icon="✏️"
-                    />
-                </div>
-                <div class="bg-bg-darker">
-                    <Card 
-                        title="Prototypes" 
-                        body="Low-fidelity to high-fidelity interactive prototypes."
-                        href={`${base}prototypes`}
-                        icon="📱"
-                    />
-                </div>
-                <div class="bg-bg-darker">
-                    <Card 
-                        title="Testing" 
-                        body="User testing sessions, feedback analysis, and iterations."
-                        href={`${base}testing`}
-                        icon="🧪"
-                    />
-                </div>
-                <div class="bg-bg-darker">
-                    <Card 
-                        title="Reflection" 
-                        body="Critical analysis of the project and learning outcomes."
-                        href={`${base}reflection`}
-                        icon="🤔"
-                    />
-                </div>
-                <div class="bg-bg-darker">
-                    <Card 
-                        title="About The Team" 
-                        body="Meet the designers and developers behind this project."
-                        href="#"
-                        icon="👥"
-                    />
-                </div>
+    <Section title="Design Journey" subtitle="From initial concepts to final validation.">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border-dark border border-border-dark">
+            <div class="bg-bg-darker">
+                <Card 
+                    title="Brainstorming" 
+                    body="Initial ideation, problem definition, and market research."
+                    href={`${normalizedBase}brainstorm/`}
+                    icon="💡"
+                />
             </div>
-        </Section>
+            <div class="bg-bg-darker">
+                <Card 
+                    title="Design Process" 
+                    body="Wireframing, information architecture, and design decisions."
+                    href={`${normalizedBase}process/`}
+                    icon="✏️"
+                />
+            </div>
+            <div class="bg-bg-darker">
+                <Card 
+                    title="Prototypes" 
+                    body="Low-fidelity to high-fidelity interactive prototypes."
+                    href={`${normalizedBase}prototypes/`}
+                    icon="📱"
+                />
+            </div>
+            <div class="bg-bg-darker">
+                <Card 
+                    title="Testing" 
+                    body="User testing sessions, feedback analysis, and iterations."
+                    href={`${normalizedBase}testing/`}
+                    icon="🧪"
+                />
+            </div>
+            <div class="bg-bg-darker">
+                <Card 
+                    title="Reflection" 
+                    body="Critical analysis of the project and learning outcomes."
+                    href={`${normalizedBase}reflection/`}
+                    icon="🤔"
+                />
+            </div>
+            <div class="bg-bg-darker">
+                <Card 
+                    title="About The Team" 
+                    body="Meet the designers and developers behind this project."
+                    href="#"
+                    icon="👥"
+                />
+            </div>
+        </div>
+    </Section>
 
-        <Section class="bg-bg-darker/30 border-t border-b border-border-dark">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl font-bold tracking-tighter mb-6 font-display">The Mission</h2>
-                    <p class="text-neutral-400 leading-relaxed mb-6">
-                        Our goal is to create an engaging web application that gamifies the study abroad preparation process for students. By combining educational content with game mechanics, we aim to make learning about international education accessible and fun.
-                    </p>
-                    <a href={`${base}brainstorm`} class="text-white border-b border-white pb-1 hover:text-brand-accent hover:border-brand-accent transition-colors font-display">Read our Problem Statement →</a>
-                </div>
+    <Section class="bg-bg-darker/30 border-t border-b border-border-dark">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold tracking-tighter mb-6 font-display">The Mission</h2>
+                <p class="text-neutral-400 leading-relaxed mb-6">
+                    Our goal is to create an engaging web application that gamifies the study abroad preparation process for students. By combining educational content with game mechanics, we aim to make learning about international education accessible and fun.
+                </p>
+                <a href={`${normalizedBase}brainstorm/`} class="text-white border-b border-white pb-1 hover:text-brand-accent hover:border-brand-accent transition-colors font-display">Read our Problem Statement →</a>
+            </div>
                 <div class="aspect-video bg-bg-darker border border-border-dark flex items-center justify-center relative overflow-hidden group">
                     <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
                     <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">PROJECT_PREVIEW.img</span>

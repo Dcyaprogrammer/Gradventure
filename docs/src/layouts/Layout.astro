@@ -19,13 +19,16 @@ const { title } = Astro.props;
 const currentPath = Astro.url.pathname;
 const base = import.meta.env.BASE_URL;
 
+// Ensure base URL always ends with a slash for consistent linking
+const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+
 const navItems = [
-  { name: 'Home', path: base },
-  { name: 'Brainstorm', path: `${base}brainstorm` },
-  { name: 'Process', path: `${base}process` },
-  { name: 'Prototypes', path: `${base}prototypes` },
-  { name: 'Testing', path: `${base}testing` },
-  { name: 'Reflection', path: `${base}reflection` },
+  { name: 'Home', path: normalizedBase },
+  { name: 'Brainstorm', path: `${normalizedBase}brainstorm/` },
+  { name: 'Process', path: `${normalizedBase}process/` },
+  { name: 'Prototypes', path: `${normalizedBase}prototypes/` },
+  { name: 'Testing', path: `${normalizedBase}testing/` },
+  { name: 'Reflection', path: `${normalizedBase}reflection/` },
 ];
 ---
 
@@ -55,7 +58,7 @@ const navItems = [
 
     <nav class="glass-nav fixed top-0 w-full z-50">
       <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href={base} class="text-xl font-bold tracking-tighter">HCI<span class="text-neutral-500">PORTFOLIO</span></a>
+        <a href={normalizedBase} class="text-xl font-bold tracking-tighter">HCI<span class="text-neutral-500">PORTFOLIO</span></a>
         
         <div class="hidden md:flex space-x-8">
           {navItems.map(item => (
@@ -63,7 +66,7 @@ const navItems = [
               href={item.path} 
               class:list={[
                 "text-sm font-medium transition-colors hover:text-white",
-                currentPath === item.path ? "text-white" : "text-neutral-400"
+                currentPath === item.path || (currentPath + '/') === item.path ? "text-white" : "text-neutral-400"
               ]}
             >
               {item.name}

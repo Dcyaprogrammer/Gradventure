@@ -7,12 +7,18 @@
   "private": true,
   "scripts": {
     "dev": "bun --hot run dev.ts",
-    "start": "bun run dev"
+    "start": "bun run dev",
+    "db:init": "bun run src/db/init.ts",
+    "db:seed": "bun run src/db/init.ts",
+    "api:example": "bun run src/api/example.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "postgres": "^3.4.8"
   }
 }

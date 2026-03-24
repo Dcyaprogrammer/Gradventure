@@ -10,15 +10,21 @@
     "start": "bun run dev",
     "db:init": "bun run src/db/init.ts",
     "db:seed": "bun run src/db/init.ts",
-    "api:example": "bun run src/api/example.ts"
+    "api:example": "bun run src/api/example.ts",
+    "server": "bun run src/server.ts",
+    "api:dev": "bun --hot run src/server.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bcryptjs": "^3.0.0",
+    "@types/bun": "latest",
+    "@types/jsonwebtoken": "^9.0.10"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
     "postgres": "^3.4.8"
   }
 }

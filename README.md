@@ -1,6 +1,6 @@
-# ApplicationWeb
+# Gradventure
 
-**Gradventure** - A gamified study abroad application preparation platform.
+**Gradventure** - A rogue-like style study abroad application game.
 
 Human-Computer Interaction Course Project
 
@@ -11,7 +11,7 @@ Gradventure is an engaging web application that gamifies the study abroad prepar
 ## 📁 Project Structure
 
 ```
-ApplicationWeb/
+Gradventure/
 ├── docs/                 # GitHub Pages - Process Portfolio (Astro Project)
 │   ├── src/              # Portfolio source code
 │   ├── public/           # Static assets

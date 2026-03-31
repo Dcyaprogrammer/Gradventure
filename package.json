@@ -26,6 +26,8 @@
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.3",
     "postgres": "^3.4.8",
-    "prisma": "^7.6.0"
+    "prisma": "^7.6.0",
+    "react-native-reanimated": "^4.3.0",
+    "react-native-worklets": "^0.8.1"
   }
 }

@@ -36,7 +36,7 @@ The portfolio is built with Astro and deployed via GitHub Actions:
 2. Source: **GitHub Actions** (was "Deploy from a branch")
 3. The `Deploy Astro site to Pages` workflow will automatically build and deploy.
 
-**Live Portfolio**: [https://dcyaprogrammer.github.io/ApplicationWeb/](https://dcyaprogrammer.github.io/ApplicationWeb/)
+**Live Portfolio**: [https://dcyaprogrammer.github.io/Gradventure/](https://dcyaprogrammer.github.io/Gradventure/)
 
 ## 📝 Portfolio Documentation
 

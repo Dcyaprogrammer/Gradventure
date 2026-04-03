@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+---
+
+<Layout title="HCI Portfolio | User Research">
+    <PageHeader 
+        title="User Research" 
+        description="Understanding our users through surveys, interviews, and journey mapping."
+    />
+
+    <Section title="Stakeholder Consultation" class="bg-neutral-900/20 border-y border-neutral-800">
+        <div class="border-l-4 border-brand-accent pl-6 bg-bg-dark p-6">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">💬</span>
+                <h3 class="text-xl font-bold text-white">Interview with SAT Course Instructor</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Left: Interview Details -->
+                <div>
+                    <div class="mb-4">
+                        <span class="text-neutral-500 font-mono text-sm">// WHO</span>
+                        <p class="text-white mt-1">SAT Course Instructor</p>
+                    </div>
+                    <div>
+                        <span class="text-neutral-500 font-mono text-sm">// TOPIC</span>
+                        <p class="text-white mt-1">Feasibility discussion and gamification strategy</p>
+                    </div>
+                </div>
+
+                <!-- Right: Key Finding -->
+                <div class="bg-bg-darker border border-brand-accent/30 p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-brand-accent">✦</span>
+                        <span class="text-brand-accent font-mono text-sm font-semibold">KEY CONCEPT</span>
+                    </div>
+                    <p class="text-white text-lg font-semibold mb-3">
+                        🎯 Level-Based Quiz System
+                    </p>
+                    <p class="text-neutral-400 text-sm leading-relaxed">
+                        Progressive difficulty levels with reward unlocking mechanism.
+                        Players earn points through quiz challenges and unlock new content/rewards upon reaching score thresholds.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </Section>
+
+    <Section title="Survey & Interview Results">
+        <div class="prose prose-invert max-w-none">
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                We conducted primary research to understand the pain points students face when planning to study abroad.
+                (Content to be added...)
+            </p>
+        </div>
+    </Section>
+
+    <Section title="Key Requirements" class="bg-bg-darker/30 border-y border-border-dark">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-bg-dark border border-border-dark p-8">
+                <h3 class="text-xl font-bold mb-4 font-display">From Users</h3>
+                <ul class="list-disc list-inside text-neutral-400 space-y-2">
+                    <li>(Requirement 1)</li>
+                    <li>(Requirement 2)</li>
+                    <li>(Requirement 3)</li>
+                </ul>
+            </div>
+            <div class="bg-bg-dark border border-border-dark p-8">
+                <h3 class="text-xl font-bold mb-4 font-display">From Stakeholders</h3>
+                <ul class="list-disc list-inside text-neutral-400 space-y-2">
+                    <li>(Requirement 1)</li>
+                    <li>(Requirement 2)</li>
+                    <li>(Requirement 3)</li>
+                </ul>
+            </div>
+        </div>
+    </Section>
+
+    <Section title="User Journey Map" class="bg-neutral-900/20 border-y border-neutral-800">
+        <div class="prose prose-invert max-w-none mb-8">
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                Mapping out the emotional and practical steps a student takes from deciding to study abroad to arriving at their destination.
+            </p>
+        </div>
+        
+        <div class="aspect-video bg-bg-darker border border-border-dark flex items-center justify-center relative overflow-hidden group w-full mb-12">
+            <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+            <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">JOURNEY_MAP_PLACEHOLDER.img</span>
+        </div>
+    </Section>
+</Layout>

@@ -1,0 +1,63 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+---
+
+<Layout title="HCI Portfolio | UI Design Journey">
+    <PageHeader 
+        title="UI Design Journey" 
+        description="The evolution of our visual language, wireframes, and design iterations."
+    />
+
+    <Section title="Design Iterations">
+        <div class="prose prose-invert max-w-none mb-12">
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                Documenting how our initial concepts transformed into high-fidelity interfaces through iterative design cycles.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="bg-bg-darker border border-border-dark p-6">
+                <h3 class="text-xl font-bold mb-4 font-display text-white">Low-Fidelity Wireframes</h3>
+                <div class="aspect-video bg-bg-dark border border-border-dark flex items-center justify-center relative overflow-hidden group w-full mb-4">
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                    <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">WIREFRAMES.img</span>
+                </div>
+                <p class="text-neutral-400 text-sm">Initial structure and information architecture planning.</p>
+            </div>
+
+            <div class="bg-bg-darker border border-border-dark p-6">
+                <h3 class="text-xl font-bold mb-4 font-display text-white">Mid-Fidelity Designs</h3>
+                <div class="aspect-video bg-bg-dark border border-border-dark flex items-center justify-center relative overflow-hidden group w-full mb-4">
+                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                    <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">MID_FI.img</span>
+                </div>
+                <p class="text-neutral-400 text-sm">Adding basic styling and testing layouts.</p>
+            </div>
+        </div>
+    </Section>
+
+    <Section title="Style Guide & UI Elements" class="bg-bg-darker/30 border-y border-border-dark">
+        <div class="prose prose-invert max-w-none">
+            <p class="text-neutral-400 text-lg leading-relaxed">
+                Our visual identity was crafted to be engaging, accessible, and playful to support the gamified nature of Gradventure.
+            </p>
+        </div>
+        <!-- Placeholder for Typography, Colors, Components -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div class="border border-border-dark p-6 bg-bg-dark">
+                <h4 class="font-bold mb-2">Typography</h4>
+                <p class="text-neutral-500 text-sm">(Fonts used)</p>
+            </div>
+            <div class="border border-border-dark p-6 bg-bg-dark">
+                <h4 class="font-bold mb-2">Color Palette</h4>
+                <p class="text-neutral-500 text-sm">(Primary & Secondary colors)</p>
+            </div>
+            <div class="border border-border-dark p-6 bg-bg-dark">
+                <h4 class="font-bold mb-2">Iconography</h4>
+                <p class="text-neutral-500 text-sm">(Icon style used)</p>
+            </div>
+        </div>
+    </Section>
+</Layout>

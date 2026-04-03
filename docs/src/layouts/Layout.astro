@@ -25,11 +25,11 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
 const navItems = [
   { name: 'Home', path: normalizedBase },
   { name: 'Brainstorm', path: `${normalizedBase}brainstorm/` },
-  { name: 'Process', path: `${normalizedBase}process/` },
+  { name: 'Research', path: `${normalizedBase}research/` },
+  { name: 'Design', path: `${normalizedBase}design/` },
   { name: 'Prototypes', path: `${normalizedBase}prototypes/` },
-  { name: 'Testing', path: `${normalizedBase}testing/` },
+  { name: 'Evaluation', path: `${normalizedBase}evaluation/` },
   { name: 'Team', path: `${normalizedBase}team/` },
-  { name: 'Reflection', path: `${normalizedBase}reflection/` },
 ];
 ---
 
@@ -59,7 +59,7 @@ const navItems = [
 
     <nav class="glass-nav fixed top-0 w-full z-50">
       <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href={normalizedBase} class="text-xl font-bold tracking-tighter">HCI<span class="text-neutral-500">PORTFOLIO</span></a>
+        <a href={normalizedBase} class="text-xl font-bold tracking-tighter">GRAD<span class="text-neutral-500">VENTURE</span></a>
         
         <div class="hidden md:flex items-center space-x-8">
           {navItems.map(item => (

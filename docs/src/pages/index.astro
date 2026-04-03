@@ -13,7 +13,7 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
         title="Gradventure"
         subtitle="A process portfolio documenting the iterative design journey of our game-based study abroad application."
         tag="Course Project 2026"
-        primaryAction={{ text: "Explore the Process", href: `${normalizedBase}process/` }}
+        primaryAction={{ text: "View Research", href: `${normalizedBase}research/` }}
         secondaryAction={{ text: "View Prototypes", href: `${normalizedBase}prototypes/` }}
     />
 
@@ -22,17 +22,25 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
             <div class="bg-bg-darker">
                 <Card
                     title="Brainstorming"
-                    body="Problem definition, user personas, and stakeholder consultation."
+                    body="Problem definition and user personas."
                     href={`${normalizedBase}brainstorm/`}
                     icon="💡"
                 />
             </div>
             <div class="bg-bg-darker">
                 <Card 
-                    title="Design Process" 
-                    body="Wireframing, information architecture, and design decisions."
-                    href={`${normalizedBase}process/`}
-                    icon="✏️"
+                    title="User Research" 
+                    body="Stakeholder consultation, survey & interview results, user journey maps, and key requirements."
+                    href={`${normalizedBase}research/`}
+                    icon="🔍"
+                />
+            </div>
+            <div class="bg-bg-darker">
+                <Card 
+                    title="UI Design Journey" 
+                    body="Design iterations, wireframing, and UI styling decisions."
+                    href={`${normalizedBase}design/`}
+                    icon="🎨"
                 />
             </div>
             <div class="bg-bg-darker">
@@ -45,18 +53,10 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
             </div>
             <div class="bg-bg-darker">
                 <Card 
-                    title="Testing" 
-                    body="User testing sessions, feedback analysis, and iterations."
-                    href={`${normalizedBase}testing/`}
+                    title="Evaluation" 
+                    body="User testing sessions, feedback analysis, and design refinements."
+                    href={`${normalizedBase}evaluation/`}
                     icon="🧪"
-                />
-            </div>
-            <div class="bg-bg-darker">
-                <Card 
-                    title="Reflection" 
-                    body="Critical analysis of the project and learning outcomes."
-                    href={`${normalizedBase}reflection/`}
-                    icon="🤔"
                 />
             </div>
             <div class="bg-bg-darker">

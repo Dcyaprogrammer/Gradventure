@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://dcyaprogrammer.github.io',
+  site: 'https://dcyaprogrammer.github.io/ApplicationWeb',
   base: '/Gradventure',
   trailingSlash: 'always',
   build: {

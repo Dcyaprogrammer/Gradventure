@@ -1,5 +1,1 @@
-export interface Stats {
-    gpa: number;
-    mentalHealth: number;
-
-}
+export type { Stats, StatKey, Phase } from "./game";

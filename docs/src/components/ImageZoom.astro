@@ -1,0 +1,139 @@
+---
+interface Props {
+    src: string;
+    alt: string;
+    class?: string;
+}
+
+const { src, alt, class: className = "" } = Astro.props;
+---
+
+<img 
+    src={src} 
+    alt={alt} 
+    class={`viewer-image cursor-zoom-in ${className}`}
+    loading="lazy"
+/>
+
+<script>
+    import Viewer from 'viewerjs';
+    import 'viewerjs/dist/viewer.css';
+
+    function initViewer() {
+        const images = document.querySelectorAll('.viewer-image');
+        images.forEach(img => {
+            // Destroy existing viewer if it exists to prevent duplicates on hot reload
+            if ((img as any).viewer) {
+                (img as any).viewer.destroy();
+            }
+            
+            // Initialize Viewer.js
+            (img as any).viewer = new Viewer(img as HTMLElement, {
+                inline: false,
+                button: true, // Show close button
+                navbar: false, // Hide the thumbnail navbar
+                title: false, // Hide the image title
+                toolbar: {
+                    zoomIn: 1,
+                    zoomOut: 1,
+                    oneToOne: 1,
+                    reset: 1,
+                    prev: 0,
+                    play: 0,
+                    next: 0,
+                    rotateLeft: 0,
+                    rotateRight: 0,
+                    flipHorizontal: 0,
+                    flipVertical: 0,
+                },
+                tooltip: false, // Hide zoom ratio tooltip
+                movable: true, // Enable dragging
+                zoomable: true, // Enable mouse wheel zoom
+                rotatable: false,
+                scalable: false,
+                transition: true,
+                fullscreen: false,
+                keyboard: true,
+                backdrop: true,
+                zoomRatio: 0.1, // Smoother zoom speed
+            });
+        });
+    }
+
+    // Initialize on Astro page load (for view transitions)
+    document.addEventListener('astro:page-load', initViewer);
+
+    // Initialize on first load
+    if (typeof window !== 'undefined') {
+        initViewer();
+    }
+</script>
+
+<style is:global>
+    /* Neo-Brutalism Overrides for Viewer.js */
+    
+    /* Backdrop - warm white with opacity */
+    .viewer-backdrop {
+        background-color: rgba(244, 240, 234, 0.95) !important;
+    }
+    
+    /* The zoomed image itself */
+    .viewer-canvas img {
+        border: 4px solid #000 !important;
+        box-shadow: 16px 16px 0px 0px rgba(0,0,0,1) !important;
+        background-color: white;
+    }
+    
+    /* Close Button (Top Right) */
+    .viewer-button.viewer-close {
+        background-color: #FFA6F6 !important; /* brand-pink */
+        border: 4px solid #000 !important;
+        border-radius: 0 !important;
+        opacity: 1 !important;
+        box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important;
+        width: 48px !important;
+        height: 48px !important;
+        top: 24px !important;
+        right: 24px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .viewer-button.viewer-close:hover {
+        transform: translate(4px, 4px) !important;
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,1) !important;
+        background-color: #FFE500 !important; /* brand-yellow on hover */
+    }
+
+    /* Make the X icon inside the close button black instead of white */
+    .viewer-close::before {
+        bottom: 15px !important;
+        left: 15px !important;
+    }
+    .viewer-button::before, .viewer-button::after {
+        background-color: #000 !important; /* Black cross lines */
+    }
+    
+    /* Toolbar (Bottom Center) */
+    .viewer-toolbar > ul > li {
+        background-color: #FFE500 !important; /* brand-yellow */
+        border: 3px solid #000 !important;
+        border-radius: 0 !important;
+        opacity: 1 !important;
+        box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important;
+        transition: all 0.2s ease !important;
+        width: 40px !important;
+        height: 40px !important;
+        margin: 0 6px !important;
+    }
+    
+    .viewer-toolbar > ul > li:hover {
+        transform: translate(2px, 2px) !important;
+        box-shadow: 2px 2px 0px 0px rgba(0,0,0,1) !important;
+        background-color: #7df752 !important; /* brand-green on hover */
+    }
+    
+    /* Make the toolbar SVG icons black instead of white */
+    .viewer-toolbar > ul > li::before {
+        filter: invert(1) grayscale(100%) contrast(1000%) !important;
+    }
+</style>

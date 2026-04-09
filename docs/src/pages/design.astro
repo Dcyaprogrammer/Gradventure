@@ -2,64 +2,164 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Section from '../components/Section.astro';
+import ImageZoom from '../components/ImageZoom.astro';
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<Layout title="HCI Portfolio | UI Design Journey">
+<Layout title="HCI Portfolio | Design Journey">
     <PageHeader 
-        title="UI Design Journey" 
+        title="Design Journey" 
         description="The evolution of our visual language, wireframes, and design iterations."
     />
 
-    <Section title="Design Iterations">
-        <div class="mb-12 bg-white p-6 border-4 border-black shadow-neo inline-block transform -rotate-1">
-            <p class="text-black text-xl font-bold leading-relaxed">
-                Documenting how our initial concepts transformed into high-fidelity interfaces through iterative design cycles.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-            <div class="bg-brand-pink border-4 border-black p-8 shadow-neo-lg transform rotate-1 hover:rotate-0 transition-transform">
-                <h3 class="text-3xl font-black text-black mb-6 font-display uppercase border-b-4 border-black pb-2 inline-block">Low-Fidelity Wireframes</h3>
-                <div class="aspect-video bg-white border-4 border-black flex items-center justify-center relative overflow-hidden group w-full mb-6 shadow-neo hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all cursor-pointer">
-                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <span class="font-mono font-bold text-black text-xl bg-brand-yellow px-4 py-2 border-4 border-black group-hover:bg-brand-cyan transition-colors transform -rotate-2">WIREFRAMES.img</span>
+    <Section title="Crazy Eights Ideation" class="bg-brand-yellow border-b-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="relative z-10">
+            <div class="flex flex-col md:flex-row gap-6 items-start mb-8">
+                <div class="bg-white p-6 border-4 border-black shadow-neo inline-block transform -rotate-1 flex-1">
+                    <p class="text-black text-xl font-bold leading-relaxed">
+                        We used the "Crazy Eights" rapid sketching exercise to brainstorm diverse UI layouts and interaction patterns quickly.
+                        <span class="block mt-2 text-brand-accent uppercase text-sm">💡 Click any sketch to zoom and explore details</span>
+                    </p>
                 </div>
-                <p class="text-black font-bold text-lg bg-white border-2 border-black p-2 inline-block shadow-neo">Initial structure and information architecture planning.</p>
+                
+                <!-- AI Disclosure Badge -->
+                <div class="bg-brand-pink p-4 border-4 border-black shadow-neo transform rotate-1 md:w-64 flex-shrink-0">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-2xl">🤖</span>
+                        <h4 class="font-black uppercase font-display border-b-2 border-black">AI Generation</h4>
+                    </div>
+                    <p class="text-black font-bold text-xs mb-3">Some sketches were rapidly visualized using AI tools.</p>
+                    
+                    <!-- Native HTML details/summary for expandable accordion -->
+                    <details class="group">
+                        <summary class="cursor-pointer bg-white border-2 border-black px-3 py-1 font-bold text-xs uppercase hover:bg-black hover:text-white transition-colors flex justify-between items-center select-none">
+                            <span>View Reference</span>
+                            <span class="group-open:rotate-180 transition-transform">▼</span>
+                        </summary>
+                        <div class="mt-2 bg-white border-2 border-black p-3 text-xs font-medium leading-relaxed text-black">
+                            [1] Gemini Nano Banana, version 1.0, accessed on 2026-02-24, available at <a href="https://gemini.google.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-brand-pink hover:bg-black transition-colors break-all">https://gemini.google.com/</a>. Used for generating the conceptual sketches in the Crazy Eights figure.
+                        </div>
+                    </details>
+                </div>
             </div>
-
-            <div class="bg-brand-cyan border-4 border-black p-8 shadow-neo-lg transform -rotate-1 hover:rotate-0 transition-transform">
-                <h3 class="text-3xl font-black text-black mb-6 font-display uppercase border-b-4 border-black pb-2 inline-block">Mid-Fidelity Designs</h3>
-                <div class="aspect-video bg-white border-4 border-black flex items-center justify-center relative overflow-hidden group w-full mb-6 shadow-neo hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all cursor-pointer">
-                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <span class="font-mono font-bold text-black text-xl bg-brand-pink px-4 py-2 border-4 border-black group-hover:bg-brand-yellow transition-colors transform rotate-2">MID_FI.img</span>
-                </div>
-                <p class="text-black font-bold text-lg bg-white border-2 border-black p-2 inline-block shadow-neo">Adding basic styling and testing layouts.</p>
+            
+            <!-- 8 Grid Cells for Crazy Eights -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                {[
+                    { id: 1, src: "crazy8/taro.jpg", title: "Taro Card Layout" },
+                    { id: 2, src: "crazy8/teachercard.png", title: "Teacher Card View" },
+                    { id: 3, src: "crazy8/drawing.png", title: "Freehand Sketch" },
+                    { id: 4, src: "crazy8/pixel.png", title: "Pixel Art Style" },
+                    { id: 5, src: "crazy8/brutalism1.png", title: "Neo Brutalism" },
+                    { id: 6, src: "crazy8/brutalism2.png", title: "Neo Brutalism" },
+                    { id: 7, src: "crazy8/cardwithrole.png", title: "Card With Figure" },
+                    { id: 8, src: "crazy8/bird.png", title: "Bird" }
+                ].map((item, index) => (
+                    <div class={`bg-white border-4 border-black p-2 shadow-neo flex flex-col transform ${index % 2 === 0 ? 'rotate-2' : '-rotate-2'} hover:rotate-0 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-neo-none transition-all`}>
+                        <div class="relative overflow-hidden group aspect-[3/4] bg-gray-100 flex flex-col items-center justify-center border-b-4 border-black">
+                            <ImageZoom 
+                                src={`${base}${item.src}`} 
+                                alt={`Crazy Eight Sketch: ${item.title}`} 
+                                class="w-full h-full object-cover"
+                            />
+                            <div class="absolute top-2 left-2 bg-black text-white w-8 h-8 flex items-center justify-center font-black border-2 border-white shadow-neo z-10">
+                                {item.id}
+                            </div>
+                        </div>
+                        <!-- Title Area -->
+                        <div class="bg-brand-yellow p-3 flex-grow flex items-center justify-center">
+                            <h4 class="text-black font-black font-display text-center uppercase text-sm leading-tight">{item.title}</h4>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     </Section>
 
-    <Section title="Style Guide & UI Elements" class="bg-brand-yellow border-y-4 border-black relative overflow-hidden">
+    <Section title="Design Alternatives" class="bg-brand-cyan border-b-4 border-black relative overflow-hidden">
         <div class="absolute inset-0 bg-grid-pattern"></div>
         <div class="relative z-10">
             <div class="mb-12 bg-white p-6 border-4 border-black shadow-neo inline-block transform rotate-1">
                 <p class="text-black text-xl font-bold leading-relaxed">
-                    Our visual identity was crafted to be engaging, accessible, and playful to support the gamified nature of Gradventure.
+                    Exploring different layout possibilities and interaction models based on our ideation sessions.
                 </p>
             </div>
-            
-            <!-- Placeholder for Typography, Colors, Components -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-                <div class="border-4 border-black p-8 bg-white shadow-neo transform -rotate-1 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all">
-                    <h4 class="font-black text-2xl font-display uppercase mb-4 border-b-4 border-brand-pink pb-2 inline-block">Typography</h4>
-                    <p class="text-black font-bold bg-gray-200 border-2 border-black px-2 py-1 inline-block">(Fonts used)</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                <!-- Alternative A -->
+                <div class="bg-white border-4 border-black p-6 shadow-neo-lg transform -rotate-1">
+                    <div class="flex items-center gap-4 mb-4 border-b-4 border-black pb-4">
+                        <span class="bg-brand-pink text-black font-black text-3xl px-4 py-2 border-4 border-black shadow-neo">A</span>
+                        <h3 class="text-2xl font-black uppercase font-display">Alternative A</h3>
+                    </div>
+                    <div class="aspect-video bg-gray-100 border-4 border-black mb-4 relative overflow-hidden group">
+                        <ImageZoom 
+                            src={`${base}`} 
+                            alt="Design Alternative A" 
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <ul class="text-black font-bold text-lg space-y-2 border-l-4 border-brand-pink pl-4">
+                        <li><span class="text-brand-pink text-xl">✓</span> Pro: Clear navigation</li>
+                        <li><span class="text-black text-xl">✗</span> Con: Takes up too much screen space</li>
+                    </ul>
                 </div>
-                <div class="border-4 border-black p-8 bg-white shadow-neo transform rotate-1 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all">
-                    <h4 class="font-black text-2xl font-display uppercase mb-4 border-b-4 border-brand-accent pb-2 inline-block">Color Palette</h4>
-                    <p class="text-black font-bold bg-gray-200 border-2 border-black px-2 py-1 inline-block">(Primary & Secondary)</p>
+
+                <!-- Alternative B -->
+                <div class="bg-white border-4 border-black p-6 shadow-neo-lg transform rotate-1">
+                    <div class="flex items-center gap-4 mb-4 border-b-4 border-black pb-4">
+                        <span class="bg-brand-green text-black font-black text-3xl px-4 py-2 border-4 border-black shadow-neo">B</span>
+                        <h3 class="text-2xl font-black uppercase font-display">Alternative B</h3>
+                    </div>
+                    <div class="aspect-video bg-gray-100 border-4 border-black mb-4 relative overflow-hidden group">
+                        <ImageZoom 
+                            src={`${base}`} 
+                            alt="Design Alternative B" 
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <ul class="text-black font-bold text-lg space-y-2 border-l-4 border-brand-green pl-4">
+                        <li><span class="text-brand-green text-xl">✓</span> Pro: Gamified elements are prominent</li>
+                        <li><span class="text-black text-xl">✗</span> Con: Learning curve is slightly steeper</li>
+                    </ul>
                 </div>
-                <div class="border-4 border-black p-8 bg-white shadow-neo transform -rotate-1 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all">
-                    <h4 class="font-black text-2xl font-display uppercase mb-4 border-b-4 border-brand-green pb-2 inline-block">Iconography</h4>
-                    <p class="text-black font-bold bg-gray-200 border-2 border-black px-2 py-1 inline-block">(Icon style used)</p>
+            </div>
+        </div>
+    </Section>
+
+    <Section title="LowFi-Prototype" class="bg-brand-pink relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="relative z-10">
+            <div class="mb-12 bg-white p-6 border-4 border-black shadow-neo inline-block transform -rotate-1">
+                <p class="text-black text-xl font-bold leading-relaxed">
+                   Documenting our final design choices and core user flows before committing to visual details.
+                </p>
+            </div>
+
+            <div class="bg-white border-4 border-black p-8 shadow-neo-lg transform rotate-1">
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="w-full md:w-1/3">
+                        <h3 class="text-3xl font-black text-black mb-6 font-display uppercase border-b-4 border-black pb-2 inline-block">Low-Fidelity Wireframes</h3>
+                        <p class="text-black font-bold text-lg bg-brand-yellow border-2 border-black p-4 mb-6 shadow-neo transform -rotate-1">
+                            Initial structure and information architecture planning. We focused on the core user flows.
+                        </p>
+                        <ul class="text-black font-bold text-lg space-y-4 border-l-4 border-black pl-4">
+                            <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> Defined core navigation</li>
+                            <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> Mapped out the gamified dashboard</li>
+                            <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> Established content hierarchy</li>
+                        </ul>
+                    </div>
+                    <div class="w-full md:w-2/3">
+                        <div class="aspect-[16/10] bg-gray-100 border-4 border-black flex flex-col items-center justify-center relative overflow-hidden w-full shadow-neo transform rotate-1">
+                            <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                            <span class="font-mono font-bold text-black text-2xl bg-brand-cyan px-6 py-3 border-4 border-black transform -rotate-2 mb-4 shadow-neo">FIGMA_EMBED_PLACEHOLDER</span>
+                            <p class="text-black font-bold bg-white border-2 border-black px-4 py-2 text-base text-center max-w-sm mt-4 shadow-neo">
+                                (Your interactive low-fidelity Figma prototype will be embedded here)
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

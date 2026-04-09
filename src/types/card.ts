@@ -2,6 +2,7 @@ export type CardId = string;
 import type { CharacterId } from "./character";
 import type { StatKey } from "./game";
 import { Phase } from "./game";
+import type { BackgroundRef } from "./background";
 
 /**
  * 卡片类型（可按你游戏内容继续扩展）
@@ -81,10 +82,6 @@ export interface CardAssets {
    * 角色头像/照片资源 key（由 CharacterId 决定也行；这里留一个覆盖口）
    */
   characterImageKey?: string;
-  /**
-   * 卡片背景图 key（可选）
-   */
-  backgroundImageKey?: string;
 }
 
 /**
@@ -98,6 +95,13 @@ export interface Card {
 
   title?: string;
   text: string;
+
+  /**
+   * 卡片背景：
+   * - 可直接指定背景 id，或只指定场景让系统按角色/阶段挑选
+   * - 若不填，推荐由角色默认背景或全局默认背景兜底
+   */
+  background?: BackgroundRef;
 
   /**
    * 左右滑分别对应一个 choice

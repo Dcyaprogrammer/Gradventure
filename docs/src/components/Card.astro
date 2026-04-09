@@ -9,14 +9,13 @@ interface Props {
 const { href, title, body, icon } = Astro.props;
 ---
 
-<div class="card group h-full flex flex-col justify-between relative">
+<div class="card group h-full flex flex-col justify-between relative bg-white">
     <div>
-        {icon && <div class="text-3xl mb-4 text-neutral-500 group-hover:text-white transition-colors">{icon}</div>}
-        <h3 class="text-xl font-bold mb-2 group-hover:text-white transition-colors font-mono">
+        {icon && <div class="text-5xl mb-6 transition-transform group-hover:scale-110 group-hover:translate-x-2 group-hover:rotate-6 duration-200 origin-bottom-left">{icon}</div>}
+        <h3 class="text-3xl font-black mb-4 font-display uppercase leading-none border-b-4 border-transparent group-hover:border-black inline-block transition-colors">
             {title}
-            {href && <span class="inline-block ml-1 transition-transform group-hover:translate-x-1">→</span>}
         </h3>
-        <p class="text-neutral-400 text-sm leading-relaxed group-hover:text-neutral-300 transition-colors">
+        <p class="text-black font-bold mt-2 text-base leading-relaxed border-t-4 border-black pt-4">
             {body}
         </p>
     </div>

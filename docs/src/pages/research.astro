@@ -10,36 +10,37 @@ import Section from '../components/Section.astro';
         description="Understanding our users through surveys, interviews, and journey mapping."
     />
 
-    <Section title="Stakeholder Consultation" class="bg-neutral-900/20 border-y border-neutral-800">
-        <div class="border-l-4 border-brand-accent pl-6 bg-bg-dark p-6">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="text-2xl">💬</span>
-                <h3 class="text-xl font-bold text-white">Interview with SAT Course Instructor</h3>
+    <Section title="Stakeholder Consultation" class="bg-brand-pink border-y-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="border-4 border-black bg-white p-8 shadow-neo relative z-10 transform -rotate-1 hover:rotate-0 transition-transform">
+            <div class="flex items-center gap-4 mb-6 border-b-4 border-black pb-4">
+                <span class="text-4xl">💬</span>
+                <h3 class="text-3xl font-black text-black font-display uppercase">Interview with SAT Course Instructor</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Left: Interview Details -->
                 <div>
-                    <div class="mb-4">
-                        <span class="text-neutral-500 font-mono text-sm">// WHO</span>
-                        <p class="text-white mt-1">SAT Course Instructor</p>
+                    <div class="mb-6">
+                        <span class="inline-block bg-black text-white font-bold px-2 py-1 mb-2 uppercase border-2 border-black">WHO</span>
+                        <p class="text-black font-bold text-xl border-l-4 border-brand-accent pl-4">SAT Course Instructor</p>
                     </div>
                     <div>
-                        <span class="text-neutral-500 font-mono text-sm">// TOPIC</span>
-                        <p class="text-white mt-1">Feasibility discussion and gamification strategy</p>
+                        <span class="inline-block bg-black text-white font-bold px-2 py-1 mb-2 uppercase border-2 border-black">TOPIC</span>
+                        <p class="text-black font-bold text-xl border-l-4 border-brand-yellow pl-4">Feasibility discussion and gamification strategy</p>
                     </div>
                 </div>
 
                 <!-- Right: Key Finding -->
-                <div class="bg-bg-darker border border-brand-accent/30 p-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-brand-accent">✦</span>
-                        <span class="text-brand-accent font-mono text-sm font-semibold">KEY CONCEPT</span>
+                <div class="bg-brand-yellow border-4 border-black p-6 shadow-neo transform rotate-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-black text-2xl">✦</span>
+                        <span class="bg-black text-white font-bold px-2 py-1 uppercase text-sm border-2 border-black">KEY CONCEPT</span>
                     </div>
-                    <p class="text-white text-lg font-semibold mb-3">
+                    <p class="text-black text-2xl font-black mb-4 font-display uppercase border-b-4 border-black pb-2">
                         🎯 Level-Based Quiz System
                     </p>
-                    <p class="text-neutral-400 text-sm leading-relaxed">
+                    <p class="text-black font-bold text-lg leading-relaxed">
                         Progressive difficulty levels with reward unlocking mechanism.
                         Players earn points through quiz challenges and unlock new content/rewards upon reaching score thresholds.
                     </p>
@@ -49,45 +50,49 @@ import Section from '../components/Section.astro';
     </Section>
 
     <Section title="Survey & Interview Results">
-        <div class="prose prose-invert max-w-none">
-            <p class="text-neutral-400 text-lg leading-relaxed">
+        <div class="max-w-none mb-8 bg-brand-cyan p-6 border-4 border-black shadow-neo inline-block transform rotate-1 hover:rotate-0 transition-transform">
+            <p class="text-black text-xl font-bold leading-relaxed">
                 We conducted primary research to understand the pain points students face when planning to study abroad.
-                (Content to be added...)
+                <span class="bg-black text-white px-2 py-1 ml-2 text-sm">(Content to be added...)</span>
             </p>
         </div>
     </Section>
 
-    <Section title="Key Requirements" class="bg-bg-darker/30 border-y border-border-dark">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-bg-dark border border-border-dark p-8">
-                <h3 class="text-xl font-bold mb-4 font-display">From Users</h3>
-                <ul class="list-disc list-inside text-neutral-400 space-y-2">
-                    <li>(Requirement 1)</li>
-                    <li>(Requirement 2)</li>
-                    <li>(Requirement 3)</li>
+    <Section title="Key Requirements" class="bg-brand-green border-y-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+            <div class="bg-white border-4 border-black p-8 shadow-neo transform -rotate-1 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all">
+                <h3 class="text-3xl font-black mb-6 font-display uppercase border-b-4 border-black pb-2 inline-block">From Users</h3>
+                <ul class="text-black font-bold text-lg space-y-4">
+                    <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> (Requirement 1)</li>
+                    <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> (Requirement 2)</li>
+                    <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> (Requirement 3)</li>
                 </ul>
             </div>
-            <div class="bg-bg-dark border border-border-dark p-8">
-                <h3 class="text-xl font-bold mb-4 font-display">From Stakeholders</h3>
-                <ul class="list-disc list-inside text-neutral-400 space-y-2">
-                    <li>(Requirement 1)</li>
-                    <li>(Requirement 2)</li>
-                    <li>(Requirement 3)</li>
+            <div class="bg-white border-4 border-black p-8 shadow-neo transform rotate-1 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-neo-none transition-all">
+                <h3 class="text-3xl font-black mb-6 font-display uppercase border-b-4 border-black pb-2 inline-block">From Stakeholders</h3>
+                <ul class="text-black font-bold text-lg space-y-4">
+                    <li class="flex items-start gap-2"><span class="text-brand-pink text-2xl leading-none">→</span> (Requirement 1)</li>
+                    <li class="flex items-start gap-2"><span class="text-brand-pink text-2xl leading-none">→</span> (Requirement 2)</li>
+                    <li class="flex items-start gap-2"><span class="text-brand-pink text-2xl leading-none">→</span> (Requirement 3)</li>
                 </ul>
             </div>
         </div>
     </Section>
 
-    <Section title="User Journey Map" class="bg-neutral-900/20 border-y border-neutral-800">
-        <div class="prose prose-invert max-w-none mb-8">
-            <p class="text-neutral-400 text-lg leading-relaxed">
-                Mapping out the emotional and practical steps a student takes from deciding to study abroad to arriving at their destination.
-            </p>
-        </div>
-        
-        <div class="aspect-video bg-bg-darker border border-border-dark flex items-center justify-center relative overflow-hidden group w-full mb-12">
-            <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-            <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">JOURNEY_MAP_PLACEHOLDER.img</span>
+    <Section title="User Journey Map" class="bg-brand-orange border-y-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="relative z-10">
+            <div class="mb-8 bg-white p-6 border-4 border-black shadow-neo inline-block transform -rotate-1">
+                <p class="text-black text-xl font-bold leading-relaxed">
+                    Mapping out the emotional and practical steps a student takes from deciding to study abroad to arriving at their destination.
+                </p>
+            </div>
+            
+            <div class="aspect-video bg-white border-4 border-black flex items-center justify-center relative overflow-hidden w-full mb-12 shadow-neo-lg transform rotate-1">
+                <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                <span class="font-mono font-bold text-black text-xl bg-brand-yellow px-4 py-2 border-4 border-black transform -rotate-2">JOURNEY_MAP_PLACEHOLDER.img</span>
+            </div>
         </div>
     </Section>
 </Layout>

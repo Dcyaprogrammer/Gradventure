@@ -9,25 +9,14 @@ interface Props {
 const { id, title, subtitle, class: className } = Astro.props;
 ---
 
-<section id={id} class:list={["relative py-20 px-6 max-w-7xl mx-auto border-l border-r border-border-dark", className]}>
-    <!-- Section number/marker decoration -->
-    <div class="absolute -left-3 top-20 w-6 h-6 border border-border-dark bg-bg-dark flex items-center justify-center rounded-full text-[10px] text-neutral-500 font-mono">
-        +
+<section class={`py-20 md:py-32 ${className}`}>
+    <div class="max-w-7xl mx-auto px-6">
+        {(title || subtitle) && (
+            <div class="mb-16">
+                {title && <h2 class="section-title">{title}</h2>}
+                {subtitle && <p class="section-subtitle mt-4">{subtitle}</p>}
+            </div>
+        )}
+        <slot />
     </div>
-    <div class="absolute -right-3 top-20 w-6 h-6 border border-border-dark bg-bg-dark flex items-center justify-center rounded-full text-[10px] text-neutral-500 font-mono">
-        +
-    </div>
-
-    {(title || subtitle) && (
-        <div class="mb-16 border-b border-border-dark pb-8 relative">
-            {title && <h2 class="section-title tracking-tighter relative inline-block">
-                <span class="absolute -left-4 top-1/2 w-2 h-0.5 bg-brand-accent"></span>
-                {title}
-            </h2>}
-            {subtitle && <p class="section-subtitle font-mono text-sm text-brand-accent/70 mt-2">
-                // {subtitle}
-            </p>}
-        </div>
-    )}
-    <slot />
 </section>

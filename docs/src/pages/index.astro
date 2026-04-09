@@ -18,8 +18,8 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
     />
 
     <Section title="Design Journey" subtitle="From initial concepts to final validation.">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border-dark border border-border-dark">
-            <div class="bg-bg-darker">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-brand-yellow p-4 border-4 border-black shadow-neo transform -rotate-1 hover:rotate-0 transition-transform">
                 <Card
                     title="Brainstorming"
                     body="Problem definition and user personas."
@@ -27,7 +27,7 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
                     icon="💡"
                 />
             </div>
-            <div class="bg-bg-darker">
+            <div class="bg-brand-pink p-4 border-4 border-black shadow-neo transform rotate-1 hover:rotate-0 transition-transform">
                 <Card 
                     title="User Research" 
                     body="Stakeholder consultation, survey & interview results, user journey maps, and key requirements."
@@ -35,7 +35,7 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
                     icon="🔍"
                 />
             </div>
-            <div class="bg-bg-darker">
+            <div class="bg-brand-green p-4 border-4 border-black shadow-neo transform -rotate-2 hover:rotate-0 transition-transform">
                 <Card 
                     title="UI Design Journey" 
                     body="Design iterations, wireframing, and UI styling decisions."
@@ -43,7 +43,7 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
                     icon="🎨"
                 />
             </div>
-            <div class="bg-bg-darker">
+            <div class="bg-brand-cyan p-4 border-4 border-black shadow-neo transform rotate-2 hover:rotate-0 transition-transform">
                 <Card 
                     title="Prototypes" 
                     body="Low-fidelity to high-fidelity interactive prototypes."
@@ -51,7 +51,7 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
                     icon="📱"
                 />
             </div>
-            <div class="bg-bg-darker">
+            <div class="bg-brand-orange p-4 border-4 border-black shadow-neo transform -rotate-1 hover:rotate-0 transition-transform">
                 <Card 
                     title="Evaluation" 
                     body="User testing sessions, feedback analysis, and design refinements."
@@ -59,7 +59,7 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
                     icon="🧪"
                 />
             </div>
-            <div class="bg-bg-darker">
+            <div class="bg-[#A8A6FF] p-4 border-4 border-black shadow-neo transform rotate-1 hover:rotate-0 transition-transform">
                 <Card
                     title="About The Team"
                     body="Meet the designers and developers behind this project."
@@ -70,18 +70,19 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
         </div>
     </Section>
 
-    <Section class="bg-bg-darker/30 border-t border-b border-border-dark">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h2 class="text-3xl font-bold tracking-tighter mb-6 font-display">The Mission</h2>
-                <p class="text-neutral-400 leading-relaxed mb-6">
-                    <span class="text-white font-semibold">Gradventure</span> is an engaging web application that gamifies the study abroad preparation process for students. By combining educational content with game mechanics, we aim to make learning about international education accessible and fun.
+    <Section class="bg-brand-yellow border-y-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="bg-white border-4 border-black p-8 shadow-neo-lg">
+                <h2 class="text-4xl font-black tracking-tighter mb-6 font-display uppercase">The Mission</h2>
+                <p class="text-black font-bold leading-relaxed mb-6 text-lg">
+                    <span class="bg-black text-white px-2 py-1 mr-1">GRADVENTURE</span> is an engaging web application that gamifies the study abroad preparation process for students. By combining educational content with game mechanics, we aim to make learning about international education accessible and fun.
                 </p>
-                <a href={`${normalizedBase}brainstorm/`} class="text-white border-b border-white pb-1 hover:text-brand-accent hover:border-brand-accent transition-colors font-display">Read our Problem Statement →</a>
+                <a href={`${normalizedBase}brainstorm/`} class="inline-block border-b-4 border-black pb-1 hover:bg-brand-accent hover:text-white hover:border-transparent transition-all font-display font-black text-xl">Read our Problem Statement →</a>
             </div>
-                <div class="aspect-video bg-bg-darker border border-border-dark flex items-center justify-center relative overflow-hidden group">
+                <div class="aspect-video bg-white border-4 border-black flex items-center justify-center relative overflow-hidden shadow-neo-lg">
                     <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">PROJECT_PREVIEW.img</span>
+                    <span class="font-mono font-bold text-black bg-brand-pink px-4 py-2">PROJECT_PREVIEW.img</span>
                 </div>
             </div>
         </Section>

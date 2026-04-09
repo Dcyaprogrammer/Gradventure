@@ -11,56 +11,61 @@ import Section from '../components/Section.astro';
     />
 
     <Section title="User Testing Sessions">
-        <div class="prose prose-invert max-w-none mb-8">
-            <p class="text-neutral-400 text-lg leading-relaxed">
+        <div class="mb-8 bg-brand-yellow p-6 border-4 border-black shadow-neo inline-block transform rotate-1">
+            <p class="text-black text-xl font-bold leading-relaxed">
                 We conducted usability testing sessions to validate our design decisions and identify areas for improvement.
             </p>
         </div>
         
         <!-- Placeholder for testing methodology and setup -->
-        <div class="bg-bg-darker border border-border-dark p-6 mb-8">
-            <h3 class="text-xl font-bold mb-4 font-display text-white">Testing Methodology</h3>
-            <ul class="list-disc list-inside text-neutral-400 space-y-2">
-                <li>(Number of participants)</li>
-                <li>(Testing format: e.g., remote, moderated)</li>
-                <li>(Key tasks tested)</li>
+        <div class="bg-white border-4 border-black p-8 mb-8 shadow-neo transform -rotate-1 hover:rotate-0 transition-transform">
+            <h3 class="text-3xl font-black mb-6 font-display uppercase border-b-4 border-black pb-2 inline-block">Testing Methodology</h3>
+            <ul class="text-black font-bold text-lg space-y-4 border-l-4 border-brand-accent pl-4">
+                <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> (Number of participants)</li>
+                <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> (Testing format: e.g., remote, moderated)</li>
+                <li class="flex items-start gap-2"><span class="text-brand-accent text-2xl leading-none">→</span> (Key tasks tested)</li>
             </ul>
         </div>
     </Section>
 
-    <Section title="Key Findings & Refinements" class="bg-bg-darker/30 border-y border-border-dark">
-        <div class="prose prose-invert max-w-none mb-12">
-            <p class="text-neutral-400 text-lg leading-relaxed">
-                Based on the feedback gathered, we iteratively improved the prototype. Here are the major changes we made.
-            </p>
-        </div>
-
-        <div class="space-y-12">
-            <!-- Refinement Item 1 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="bg-bg-dark border border-border-dark p-6">
-                    <h4 class="font-bold text-brand-accent mb-2">Issue Identified</h4>
-                    <p class="text-neutral-400 text-sm mb-4">(Describe what users struggled with)</p>
-                    <h4 class="font-bold text-green-400 mb-2">Our Solution</h4>
-                    <p class="text-neutral-400 text-sm">(Describe how the design was changed to fix it)</p>
-                </div>
-                <div class="aspect-video bg-bg-darker border border-border-dark flex items-center justify-center relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">BEFORE_AFTER.img</span>
-                </div>
+    <Section title="Key Findings & Refinements" class="bg-brand-orange border-y-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 bg-grid-pattern"></div>
+        <div class="relative z-10">
+            <div class="mb-12 bg-white p-6 border-4 border-black shadow-neo inline-block transform -rotate-1">
+                <p class="text-black text-xl font-bold leading-relaxed">
+                    Based on the feedback gathered, we iteratively improved the prototype. Here are the major changes we made.
+                </p>
             </div>
-            
-            <!-- Refinement Item 2 Placeholder -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="bg-bg-dark border border-border-dark p-6">
-                    <h4 class="font-bold text-brand-accent mb-2">Issue Identified</h4>
-                    <p class="text-neutral-400 text-sm mb-4">(Describe what users struggled with)</p>
-                    <h4 class="font-bold text-green-400 mb-2">Our Solution</h4>
-                    <p class="text-neutral-400 text-sm">(Describe how the design was changed to fix it)</p>
+
+            <div class="space-y-16">
+                <!-- Refinement Item 1 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white border-4 border-black p-8 shadow-neo-lg transform rotate-1">
+                    <div>
+                        <h4 class="font-black text-2xl uppercase mb-2 border-b-4 border-black pb-1 inline-block">Issue Identified</h4>
+                        <p class="text-black font-bold text-lg mb-6 bg-brand-pink border-2 border-black p-2 inline-block shadow-neo">(Describe what users struggled with)</p>
+                        
+                        <h4 class="font-black text-2xl uppercase mb-2 border-b-4 border-black pb-1 inline-block">Our Solution</h4>
+                        <p class="text-black font-bold text-lg bg-brand-green border-2 border-black p-2 inline-block shadow-neo">(Describe how the design was changed to fix it)</p>
+                    </div>
+                    <div class="aspect-video bg-brand-cyan border-4 border-black flex items-center justify-center relative overflow-hidden shadow-neo">
+                        <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                        <span class="font-mono font-bold text-black text-xl bg-white px-4 py-2 border-4 border-black">BEFORE_AFTER.img</span>
+                    </div>
                 </div>
-                <div class="aspect-video bg-bg-darker border border-border-dark flex items-center justify-center relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <span class="font-mono text-neutral-600 group-hover:text-white transition-colors">BEFORE_AFTER.img</span>
+                
+                <!-- Refinement Item 2 Placeholder -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white border-4 border-black p-8 shadow-neo-lg transform -rotate-1">
+                    <div>
+                        <h4 class="font-black text-2xl uppercase mb-2 border-b-4 border-black pb-1 inline-block">Issue Identified</h4>
+                        <p class="text-black font-bold text-lg mb-6 bg-brand-yellow border-2 border-black p-2 inline-block shadow-neo">(Describe what users struggled with)</p>
+                        
+                        <h4 class="font-black text-2xl uppercase mb-2 border-b-4 border-black pb-1 inline-block">Our Solution</h4>
+                        <p class="text-black font-bold text-lg bg-brand-green border-2 border-black p-2 inline-block shadow-neo">(Describe how the design was changed to fix it)</p>
+                    </div>
+                    <div class="aspect-video bg-brand-pink border-4 border-black flex items-center justify-center relative overflow-hidden shadow-neo">
+                        <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                        <span class="font-mono font-bold text-black text-xl bg-white px-4 py-2 border-4 border-black">BEFORE_AFTER.img</span>
+                    </div>
                 </div>
             </div>
         </div>

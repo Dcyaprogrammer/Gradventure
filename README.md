@@ -2,7 +2,7 @@
 
 An interactive, gamified journey documenting the HCI (Human-Computer Interaction) design process. Gradventure is designed as a web-based card/board game where users progress through different stages of product development.
 
-## � Tech Stack (Current Progress)
+## 🛠 Tech Stack (Current Progress)
 
 ### Frontend (Client)
 - **Framework:** React 19 + TypeScript
@@ -12,11 +12,10 @@ An interactive, gamified journey documenting the HCI (Human-Computer Interaction
 - **Data Fetching:** React Query (TanStack Query v5), Axios
 - **Animations:** Framer Motion
 
-### Backend (Server - *Pending Implementation*)
-- **Runtime:** Bun
-- **Database ORM:** Prisma
-- **Database:** PostgreSQL
-- **Authentication:** JWT (jsonwebtoken) & bcryptjs
+### Backend & Database (BaaS)
+- **Platform:** Supabase
+- **Authentication:** Supabase Auth (Email/Password, Anonymous play)
+- **Database:** PostgreSQL (via Supabase)
 
 ### Shared (Game Logic)
 - Custom game engine types and configurations (`src/game/` & `src/types/`)
@@ -25,12 +24,13 @@ An interactive, gamified journey documenting the HCI (Human-Computer Interaction
 
 1. **Static Documentation (`docs/`)**: ✅ Completed
    - Contains the Astro-based static site detailing the design journey (Crazy Eights, CJM, etc.).
-2. **Frontend Architecture (`src/client/`)**: 🚧 Initialized
+2. **Frontend Architecture (`src/client/`)**: 🚧 In Progress
    - Vite + React + Tailwind v4 environment is set up and integrated.
    - Core game logic types (`cards`, `characters`, `backgrounds`) have been drafted by the team in `src/game/`.
-3. **Backend Architecture (`src/server/`)**: ❌ Not Started
-   - Prisma schema is currently empty.
-   - Server entry points (`src/server/index.ts`, `src/db/init.ts`) defined in `package.json` are not yet created.
+   - **Home Page**: Completed the "Survive to Graduation" Neo-brutalism glitch UI theme (warning tapes, system failure aesthetics).
+   - **Authentication**: Completed custom Neo-brutalism `AuthModal` integrated with Supabase Auth and Zustand for state management.
+3. **Backend Architecture**: 🚧 Transitioned to Supabase
+   - Replaced initial custom Node/JWT/bcrypt plans with Supabase for faster iteration and robust Auth/DB capabilities.
 
 ## 💻 Getting Started
 

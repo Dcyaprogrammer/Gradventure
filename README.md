@@ -1,186 +1,49 @@
 # Gradventure
 
-**Gradventure** - A rogue-like style study abroad application game.
+An interactive, gamified journey documenting the HCI (Human-Computer Interaction) design process. Gradventure is designed as a web-based card/board game where users progress through different stages of product development.
 
-Human-Computer Interaction Course Project
+## � Tech Stack (Current Progress)
 
-## 🎯 About Gradventure
+### Frontend (Client)
+- **Framework:** React 19 + TypeScript
+- **Build Tool:** Vite
+- **Styling:** Tailwind CSS v4 (Neo-brutalism theme)
+- **State Management:** Zustand
+- **Data Fetching:** React Query (TanStack Query v5), Axios
+- **Animations:** Framer Motion
 
-Gradventure is an engaging web application that gamifies the study abroad preparation process for students. By combining educational content with game mechanics, we aim to make learning about international education accessible and fun.
+### Backend (Server - *Pending Implementation*)
+- **Runtime:** Bun
+- **Database ORM:** Prisma
+- **Database:** PostgreSQL
+- **Authentication:** JWT (jsonwebtoken) & bcryptjs
 
-## 📁 Project Structure
+### Shared (Game Logic)
+- Custom game engine types and configurations (`src/game/` & `src/types/`)
 
-```
-Gradventure/
-├── docs/                 # GitHub Pages - Process Portfolio (Astro Project)
-│   ├── src/              # Portfolio source code
-│   ├── public/           # Static assets
-│   └── astro.config.mjs  # Astro configuration
-│
-├── src/                  # Main webapp source (to be created)
-├── package.json          # Main project dependencies
-└── README.md             # This file
-```
+## 🚀 Development Status
 
-## 🎯 About This Repo
+1. **Static Documentation (`docs/`)**: ✅ Completed
+   - Contains the Astro-based static site detailing the design journey (Crazy Eights, CJM, etc.).
+2. **Frontend Architecture (`src/client/`)**: 🚧 Initialized
+   - Vite + React + Tailwind v4 environment is set up and integrated.
+   - Core game logic types (`cards`, `characters`, `backgrounds`) have been drafted by the team in `src/game/`.
+3. **Backend Architecture (`src/server/`)**: ❌ Not Started
+   - Prisma schema is currently empty.
+   - Server entry points (`src/server/index.ts`, `src/db/init.ts`) defined in `package.json` are not yet created.
 
-This repository contains:
-1. **Process Portfolio** (`docs/`) - Documenting the iterative design process for HCI course
-2. **Web Application** (to be developed) - Your main course project
+## 💻 Getting Started
 
-## 🚀 GitHub Pages Setup
+### Prerequisites
+- [Bun](https://bun.sh/) (Recommended) or Node.js
 
-The portfolio is built with Astro and deployed via GitHub Actions:
-
-1. Go to Repository Settings → Pages
-2. Source: **GitHub Actions** (was "Deploy from a branch")
-3. The `Deploy Astro site to Pages` workflow will automatically build and deploy.
-
-**Live Portfolio**: [https://dcyaprogrammer.github.io/Gradventure/](https://dcyaprogrammer.github.io/Gradventure/)
-
-## 📝 Portfolio Documentation
-
-See [docs/PORTFOLIO_README.md](docs/PORTFOLIO_README.md) for detailed portfolio documentation.
-
-## 🛠 Tech Stack
-
-### Backend
-- **Runtime**: Bun
-- **Database**: PostgreSQL 16
-- **Authentication**: JWT (JSON Web Tokens)
-- **Password Hashing**: bcrypt
-- **API**: RESTful
-
-### Frontend (To be developed)
-- Framework to be determined
-
-### Infrastructure
-- **Database**: PostgreSQL (port 5433)
-- **CI/CD**: GitHub Actions (for portfolio)
-
----
-
-## 🚀 Quick Start
-
-### Backend Setup
-
-1. **Install PostgreSQL**
-   - See [BACKEND_SETUP.md](BACKEND_SETUP.md) for platform-specific instructions
-
-2. **Configure Environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials
-   ```
-
-3. **Initialize Database**
-   ```bash
-   bun run db:init
-   ```
-
-4. **Start Server**
-   ```bash
-   bun run api:dev
-   ```
-
-   Server will run at `http://localhost:3000`
-
-### Authentication System
-
-The backend includes a complete authentication system with XJTLU email verification.
-
-- **Documentation**: [AUTH_SETUP.md](AUTH_SETUP.md)
-- **API Docs**: [src/auth/README.md](src/auth/README.md)
-
-#### Features
-- ✅ XJTLU email authentication (`@student.xjtlu.edu.cn` / `@xjtlu.edu.cn`)
-- ✅ Secure password hashing (bcrypt)
-- ✅ JWT token authentication
-- ✅ User registration & login
-- ✅ Protected API routes
-
-#### Quick Test
-
+### Running the Frontend
 ```bash
-# Register a new user
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "testuser",
-    "email": "testuser@student.xjtlu.edu.cn",
-    "password": "Password123"
-  }'
+# Install dependencies
+npm install
 
-# Login
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "testuser@student.xjtlu.edu.cn",
-    "password": "Password123"
-  }'
+# Start the Vite development server
+npm run dev
 ```
 
-### Available Scripts
-
-```bash
-bun run db:init       # Initialize database
-bun run server        # Start production server
-bun run api:dev       # Start development server (with hot reload)
-bun run dev           # Start development server
-```
-
----
-
-## 📁 Project Structure
-
-```
-ApplicationWeb/
-├── docs/                 # GitHub Pages - Process Portfolio
-│   ├── src/              # Portfolio source code
-│   ├── public/           # Static assets
-│   └── astro.config.mjs  # Astro configuration
-│
-├── src/                  # Backend application
-│   ├── api/              # API routes
-│   │   ├── auth.ts       # Authentication endpoints
-│   │   └── example.ts    # Example API routes
-│   ├── db/               # Database layer
-│   │   ├── db.ts         # Database connection
-│   │   ├── init.ts       # Initialization script
-│   │   └── README.md     # Database documentation
-│   ├── middleware/       # Express middleware
-│   │   └── auth.ts       # Authentication middleware
-│   ├── utils/            # Utility functions
-│   │   └── auth.ts       # Auth utilities
-│   ├── auth/             # Auth documentation
-│   │   └── README.md     # Authentication guide
-│   └── server.ts         # Main server file
-│
-├── .env.example          # Environment variables template
-├── BACKEND_SETUP.md      # Backend setup guide
-├── AUTH_SETUP.md         # Authentication system guide
-├── package.json          # Project dependencies
-└── README.md             # This file
-```
-
----
-
-## 📚 Documentation
-
-- [BACKEND_SETUP.md](BACKEND_SETUP.md) - Backend database setup
-- [AUTH_SETUP.md](AUTH_SETUP.md) - Authentication system guide
-- [src/auth/README.md](src/auth/README.md) - Detailed authentication API docs
-- [src/db/README.md](src/db/README.md) - Database documentation
-
----
-
-## 🎯 About This Repo
-
-This repository contains:
-1. **Process Portfolio** (`docs/`) - Documenting the iterative design process for HCI course
-2. **Web Application Backend** (`src/`) - Gradventure backend API with authentication
-
----
-
-**Course**: Human-Computer Interaction
-**Semester**: Spring 2025
+*(Note: Backend setup instructions will be updated once the server API is implemented).*

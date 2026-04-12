@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useAuthStore, IS_DEMO_MODE } from './store/authStore';
+import { useEffect } from 'react';
+import { useAuthStore } from './store/authStore';
 import { AuthModal } from './components/AuthModal';
 import { motion, AnimatePresence } from 'framer-motion';
 

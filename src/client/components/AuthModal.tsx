@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useAuthStore, IS_DEMO_MODE } from '../store/authStore';
+import { useState } from 'react';
+import { useAuthStore } from '../store/authStore';
 import { supabase } from '../utils/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 

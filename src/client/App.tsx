@@ -1,14 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/authStore';
 import { AuthModal } from './components/AuthModal';
+import { GameScreen } from './components/GameScreen';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
-  const { user, isAnonymous, isLoading, error, initialize, signOut, setAuthModalOpen } = useAuthStore();
+  const { user, isAnonymous, isLoading, error, initialize, signOut, setAuthModalOpen, signInAnonymously } = useAuthStore();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     initialize();
   }, [initialize]);
+
+  // If user is playing and logged in, show game
+  if (isPlaying && user) {
+    return <GameScreen onQuit={() => setIsPlaying(false)} />;
+  }
 
   if (isLoading) {
     return (
@@ -21,6 +28,15 @@ function App() {
   // Generate warning tape text (Grad school application themed)
   const warningText = "⚠ GPA WARNING ⚠ GRE EXAM FAILED ⚠ PROFESSOR GHOSTED YOU ⚠ REJECTED ⚠ DEADLINE MISSED ⚠ NO FUNDING ⚠ ";
   const tapeArray = Array(15).fill(warningText);
+
+  const handlePlayClick = async () => {
+    if (user) {
+      setIsPlaying(true);
+    } else {
+      await signInAnonymously();
+      setIsPlaying(true);
+    }
+  };
 
   return (
     <div 
@@ -76,6 +92,7 @@ function App() {
       {/* Minimalist Action Area */}
       <div className="z-10 w-full max-w-sm flex flex-col gap-6 relative">
         <motion.button 
+          onClick={handlePlayClick}
           whileHover={{ scale: 1.05, y: -4, rotate: -2 }}
           whileTap={{ scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)", rotate: 0 }}
           className="w-full font-black py-6 sm:py-8 px-6 border-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] uppercase text-4xl sm:text-5xl text-black flex justify-center items-center bg-brand-yellow hover:bg-brand-green transition-colors"

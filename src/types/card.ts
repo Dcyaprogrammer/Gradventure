@@ -21,6 +21,21 @@ export type CardCategory =
 export type SwipeDirection = "left" | "right";
 
 /**
+ * 情感压力分级（决定 UI 主题）
+ * - chill: 轻松（日常、休息、社团）-> 亮色/圆滑 UI
+ * - grind: 努力（上课、做作业、实习）-> 经典粗野主义 UI
+ * - panic: 极限高压（赶 DDL、挂科边缘、受伤）-> 红色/Glitch 警告 UI
+ */
+export type StressLevel = "chill" | "grind" | "panic";
+
+/**
+ * 触发类型
+ * - normal: 普通卡池随机抽取
+ * - special_event: 强制插入的特殊事件（满足条件必定触发）
+ */
+export type TriggerType = "normal" | "special_event";
+
+/**
  * 对 stats 的增量变化（正/负皆可）
  * - 用 Partial 允许只改动某几个值
  */
@@ -102,6 +117,24 @@ export interface Card {
    * - 若不填，推荐由角色默认背景或全局默认背景兜底
    */
   background?: BackgroundRef;
+
+  /**
+   * 卡片的情感压力分级（UI 渲染依据）
+   * 默认情况下，如果没有传，可以按 category 映射或 fallback 到 "grind"
+   */
+  stressLevel?: StressLevel;
+
+  /**
+   * 卡片的触发机制（随机抽卡 vs 强制触发的特殊事件）
+   * 默认 "normal"
+   */
+  triggerType?: TriggerType;
+
+  /**
+   * 特殊事件触发概率（0 - 1.0）
+   * 仅在满足 requirements 的情况下，每回合有概率被强制插入队列顶端
+   */
+  triggerProbability?: number;
 
   /**
    * 左右滑分别对应一个 choice

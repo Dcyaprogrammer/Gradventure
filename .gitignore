@@ -40,3 +40,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # UI Library cloned for reference (do not track)
 neo-brutalism-ui-library/
+
+ai-log/
+
+product.md 
+dev_plan.md

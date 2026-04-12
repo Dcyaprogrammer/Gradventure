@@ -10,6 +10,8 @@ The game will go from year1 to year3 and users will encounter different events a
 
 The content is expected to be from database in the future, but for this development stage, we will hardcode the content in the game page.
 
+The ultimate goal of the development is to develop a scalable gaming system, the demonstration will be only required for a demo scale.
+
 # Components
 1. Home page
 2. Login page

@@ -3,24 +3,24 @@
  * - 统一从这里导出，避免各处重复定义
  */
 export enum Phase {
-  Freshman = "freshman",
-  Sophomore = "sophomore",
-  Junior = "junior",
-  Senior = "senior",
-  Vacation = "vacation",
+  Year1 = "year1",
+  Year2 = "year2",
+  Year3 = "year3",
 }
 
 /**
- * 升学系统的四个核心指标（Reigns 风格：少而精）
+ * 升学系统的四个核心指标 (Based on product.md)
  *
- * - gpa: 学业表现
- * - mentalHealth: 精神/心理状态
- * - careerCapital: “软背景/履历资本”（科研、实习、项目、竞赛等积累）
+ * - gpa: 学业表现 (GPA)
+ * - mentality: 精神/心理状态 (Mentality)
+ * - energy: 精力/体力 (Energy)
+ * - experience: 经验/履历资本 (Experience)
  */
 export interface Stats {
   gpa: number;
-  mentalHealth: number;
-  careerCapital: number;
+  mentality: number;
+  energy: number;
+  experience: number;
 }
 
 export type StatKey = keyof Stats;

@@ -11,7 +11,7 @@ const SPECIAL_EVENTS: Record<string, Card> = {
     phase: Phase.Year1,
     character: "gym_coach",
     title: "Pulled Muscle!",
-    text: "You were completely exhausted but forced yourself to go to PE class. You pulled a muscle.",
+    text: "You forced yourself to PE class and pulled a muscle.",
     stressLevel: "panic",
     triggerType: "special_event",
     choices: {
@@ -33,7 +33,7 @@ const SPECIAL_EVENTS: Record<string, Card> = {
     phase: Phase.Year1,
     character: "therapist",
     title: "Burnout",
-    text: "You've been pushing too hard. You just stared at a blank screen for 4 hours crying.",
+    text: "You stared at a blank screen for 4 hours crying. Burnout.",
     stressLevel: "panic",
     triggerType: "special_event",
     choices: {
@@ -59,7 +59,7 @@ const MOCK_DECK: Card[] = [
     phase: Phase.Year1,
     character: "professor_x",
     title: "The First Assignment",
-    text: "Your first HCI assignment is due tomorrow. Do you want to pull an all-nighter to perfect it, or submit what you have and sleep?",
+    text: "HCI assignment due tomorrow. Perfection or sleep?",
     stressLevel: "grind",
     choices: {
       left: {
@@ -86,7 +86,7 @@ const MOCK_DECK: Card[] = [
     phase: Phase.Year1,
     character: "roommate",
     title: "Party Invite",
-    text: "Your roommate is hosting a massive party tonight. It's great for networking, but you have a reading to finish.",
+    text: "Massive party tonight. Great networking, but you have a reading to finish.",
     stressLevel: "chill",
     choices: {
       left: {
@@ -94,7 +94,7 @@ const MOCK_DECK: Card[] = [
         label: "Go Party",
         effect: {
           stats: { mentality: 15, experience: 10, gpa: -5, energy: -10 },
-          resultText: "You met some cool seniors! But the reading... what reading?"
+          resultText: "You met some cool seniors! But what reading?"
         }
       },
       right: {

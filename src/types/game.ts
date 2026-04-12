@@ -2,11 +2,13 @@
  * 游戏全局“阶段”（学年/假期）
  * - 统一从这里导出，避免各处重复定义
  */
-export enum Phase {
-  Year1 = "year1",
-  Year2 = "year2",
-  Year3 = "year3",
-}
+export type Phase = "year1" | "year2" | "year3";
+
+export const Phase = {
+  Year1: "year1" as Phase,
+  Year2: "year2" as Phase,
+  Year3: "year3" as Phase,
+} as const;
 
 /**
  * 升学系统的四个核心指标 (Based on product.md)

@@ -29,3 +29,4 @@ The ultimate goal of the development is to develop a scalable gaming system, the
 6. Components should be varified, not like single circles or squares are used for all components
 7. refer to the neo-ne-brutalism-ui-library in the root directory
 8. We all mainly developing for mobile phone users, so the design should be mobile-friendly
+9. always be careful about readability when choosing colors

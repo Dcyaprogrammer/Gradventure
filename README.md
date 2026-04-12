@@ -2,7 +2,12 @@
 
 An interactive, gamified journey documenting the HCI (Human-Computer Interaction) design process. Gradventure is designed as a web-based card/board game where users progress through different stages of product development.
 
-## 🛠 Tech Stack (Current Progress)
+## � Live Links
+
+- **🎮 Play the Game (Main App):** [https://gradventure-yijl.vercel.app](https://gradventure-yijl.vercel.app)
+- **📖 HCI Design Portfolio (Docs):** [https://dcyaprogrammer.github.io/Gradventure/](https://dcyaprogrammer.github.io/Gradventure/)
+
+## �🛠 Tech Stack (Current Progress)
 
 ### Frontend (Client)
 - **Framework:** React 19 + TypeScript

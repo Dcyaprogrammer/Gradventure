@@ -2,19 +2,33 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/authStore';
 import { AuthModal } from './components/AuthModal';
 import { GameScreen } from './components/GameScreen';
+import { StoreScreen } from './components/StoreScreen';
+import { KnowledgeBaseScreen } from './components/KnowledgeBaseScreen';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
   const { user, isAnonymous, isLoading, error, initialize, signOut, setAuthModalOpen, signInAnonymously } = useAuthStore();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentView, setCurrentView] = useState<'home' | 'game' | 'store' | 'knowledge'>('home');
 
   useEffect(() => {
     initialize();
   }, [initialize]);
 
-  // If user is playing and logged in, show game
-  if (isPlaying && user) {
-    return <GameScreen onQuit={() => setIsPlaying(false)} />;
+  if (currentView === 'game' && user) {
+    return (
+      <GameScreen 
+        onQuit={() => setCurrentView('home')} 
+        onNavigate={(view) => setCurrentView(view)} 
+      />
+    );
+  }
+
+  if (currentView === 'store') {
+    return <StoreScreen onBack={() => setCurrentView('home')} />;
+  }
+
+  if (currentView === 'knowledge') {
+    return <KnowledgeBaseScreen onBack={() => setCurrentView('home')} />;
   }
 
   if (isLoading) {
@@ -31,10 +45,10 @@ function App() {
 
   const handlePlayClick = async () => {
     if (user) {
-      setIsPlaying(true);
+      setCurrentView('game');
     } else {
       await signInAnonymously();
-      setIsPlaying(true);
+      setCurrentView('game');
     }
   };
 
@@ -90,7 +104,7 @@ function App() {
       </motion.div>
 
       {/* Minimalist Action Area */}
-      <div className="z-10 w-full max-w-sm flex flex-col gap-6 relative">
+      <div className="z-10 w-full max-w-sm flex flex-col gap-4 relative">
         <motion.button 
           onClick={handlePlayClick}
           whileHover={{ scale: 1.05, y: -4, rotate: -2 }}
@@ -99,6 +113,26 @@ function App() {
         >
           {user ? 'PLAY' : 'START'}
         </motion.button>
+
+        <div className="flex gap-4">
+          <motion.button 
+            onClick={() => setCurrentView('store')}
+            whileHover={{ scale: 1.05, y: -2, rotate: 1 }}
+            whileTap={{ scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)", rotate: 0 }}
+            className="flex-1 font-black py-3 px-4 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] uppercase text-lg sm:text-xl text-black flex justify-center items-center bg-white hover:bg-brand-cyan transition-colors"
+          >
+            🏪 STORE
+          </motion.button>
+
+          <motion.button 
+            onClick={() => setCurrentView('knowledge')}
+            whileHover={{ scale: 1.05, y: -2, rotate: -1 }}
+            whileTap={{ scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)", rotate: 0 }}
+            className="flex-1 font-black py-3 px-4 border-4 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] uppercase text-lg sm:text-xl text-black flex justify-center items-center bg-white hover:bg-brand-pink transition-colors"
+          >
+            📚 GUIDE
+          </motion.button>
+        </div>
 
         {(!user || isAnonymous) && (
           <motion.button 

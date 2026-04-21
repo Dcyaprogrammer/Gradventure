@@ -9,6 +9,15 @@ import type { BackgroundRef } from "./background";
  * - 用 string union 的方式，比 enum 更容易随内容增长
  */
 export type CardCategory =
+  | "AGENCY"
+  | "LANGUAGE"
+  | "ACADEMIC"
+  | "SOCIAL"
+  | "HEALTH"
+  | "CRISIS"
+  | "PLANNING"
+  | "WAITING"
+  | "RESULTS"
   | "study"
   | "social"
   | "health"
@@ -51,6 +60,10 @@ export interface CardEffect {
    * - 例如：你熬夜赶 due，GPA 小涨但精神掉了
    */
   resultText?: string;
+  daysToAdvance?: number; // Force a specific time jump (e.g., advancing a whole month)
+  triggerGameOver?: string; // If set, immediately ends the game with this message (Victory/Defeat)
+  isWin?: boolean; // If true alongside triggerGameOver, the game is considered a win
+  currencyAward?: number; // How much currency to award (if any)
   /**
    * 可选：给“卡池/剧情”一个钩子，用于生成后续卡片或跳转剧情节点
    * - 例：选择实习 → 推入一组 career 相关卡
@@ -71,6 +84,7 @@ export interface CardChoice {
   id: string;
   label: string;
   effect: CardEffect;
+  nextCardId?: string; // Optional: Force the next card to be this specific ID (for sequential story branches)
 }
 
 /**

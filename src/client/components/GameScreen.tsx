@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import type { PanInfo } from 'framer-motion';
-import { useGameStore } from '../store/gameStore';
+import { useGameStore, getFormattedDate } from '../store/gameStore';
 
-export const GameScreen = ({ onQuit }: { onQuit: () => void }) => {
-  const { stats, activeStressLevel, currentPhase, currentMonth, currentCard, isGameOver, gameOverReason, initializeGame, makeChoice } = useGameStore();
+export const GameScreen = ({ 
+  onQuit, 
+  onNavigate 
+}: { 
+  onQuit: () => void; 
+  onNavigate: (view: 'store' | 'knowledge') => void; 
+}) => {
+  const { stats, activeStressLevel, currentDay, currentCard, isGameOver, gameOverReason, isWin, currency, initializeGame, makeChoice } = useGameStore();
   
+  const dateObj = getFormattedDate(currentDay);
+
   const [feedbackText, setFeedbackText] = useState<string | null>(null);
   
   // Dragging State & Animations
@@ -70,20 +78,52 @@ export const GameScreen = ({ onQuit }: { onQuit: () => void }) => {
 
   if (isGameOver) {
     return (
-      <div className="min-h-[100dvh] bg-brand-yellow flex flex-col items-center justify-center p-6 font-sans">
-        <div className="bg-white border-[8px] border-black p-8 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] max-w-md w-full text-center transform -rotate-2">
-          <h1 className="text-5xl font-black uppercase tracking-tighter mb-4 text-black">
-            GAME OVER
+      <div className="min-h-[100dvh] bg-brand-yellow flex flex-col items-center justify-center p-4 sm:p-6 font-sans relative overflow-hidden">
+        {/* Background graphic */}
+        <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+        
+        <div className="bg-white border-[8px] border-black p-6 sm:p-8 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] max-w-md w-full text-center transform -rotate-1 relative z-10">
+          <h1 className={`text-4xl sm:text-5xl font-black uppercase tracking-tighter mb-4 ${isWin ? 'text-brand-green' : 'text-brand-pink'}`}>
+            {isWin ? 'VICTORY' : 'GAME OVER'}
           </h1>
-          <div className="bg-black text-white p-4 font-bold text-xl mb-8 border-[4px] border-black shadow-[4px_4px_0px_0px_#FFA6F6] transform rotate-1">
+          
+          <div className={`p-4 font-bold text-lg sm:text-xl mb-6 border-[4px] border-black transform rotate-1 ${isWin ? 'bg-brand-cyan text-black shadow-[4px_4px_0px_0px_#000]' : 'bg-black text-white shadow-[4px_4px_0px_0px_#FFA6F6]'}`}>
             {gameOverReason}
           </div>
-          <button 
-            onClick={() => initializeGame()}
-            className="w-full bg-brand-cyan text-black border-[6px] border-black font-black uppercase tracking-widest text-2xl py-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-pink transition-all hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-          >
-            TRY AGAIN
-          </button>
+
+          <div className="bg-black text-white font-black text-xl py-2 mb-6 border-4 border-black inline-block px-6">
+            💰 Currency: {currency}
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <button 
+              onClick={() => initializeGame()}
+              className="w-full bg-brand-yellow text-black border-[6px] border-black font-black uppercase tracking-widest text-xl py-3 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-pink transition-all hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+            >
+              PLAY AGAIN
+            </button>
+            
+            <div className="flex gap-4">
+              <button 
+                onClick={() => onNavigate('store')}
+                className="flex-1 bg-white text-black border-[4px] border-black font-black uppercase tracking-wider text-sm sm:text-base py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-cyan transition-all hover:translate-y-1 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)]"
+              >
+                🏪 STORE
+              </button>
+              <button 
+                onClick={() => onNavigate('knowledge')}
+                className="flex-1 bg-white text-black border-[4px] border-black font-black uppercase tracking-wider text-sm sm:text-base py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-green transition-all hover:translate-y-1 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)]"
+              >
+                📚 GUIDE
+              </button>
+            </div>
+            <button 
+              onClick={handleQuit}
+              className="mt-2 text-sm font-black underline decoration-2 hover:text-brand-pink transition-colors"
+            >
+              RETURN TO TITLE
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -102,22 +142,26 @@ export const GameScreen = ({ onQuit }: { onQuit: () => void }) => {
         <div className="absolute inset-0 pointer-events-none z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
       )}
 
-      {/* Dedicated Top Bar for Status Icons (Visually separated from dynamic background) */}
-      <div className="z-20 w-full bg-white border-b-[6px] border-black shadow-[0px_8px_0px_0px_rgba(0,0,0,1)] relative shrink-0">
-        <div className="max-w-md mx-auto flex justify-between items-center px-8 py-6">
+      {/* TOP STATUS BAR (Integrated Date Design) */}
+      <div className="relative z-20 w-full bg-white border-b-[6px] border-black shadow-[0_4px_0_0_rgba(0,0,0,1)] px-4 py-4 sm:px-8 sm:py-6 flex justify-between items-center">
+        
+        {/* Left side: The 4 core stats */}
+        <div className="flex items-start gap-3 sm:gap-6">
           <StatIcon type="gpa" value={stats.gpa} />
           <StatIcon type="mentality" value={stats.mentality} />
           <StatIcon type="energy" value={stats.energy} />
           <StatIcon type="experience" value={stats.experience} />
         </div>
-        
-        {/* Phase Info (Now attached to the bottom edge of the top bar) */}
-        <div className="absolute -bottom-10 right-4 z-10 text-right">
-          <div className={`font-black text-lg tracking-widest ${textColorClass} drop-shadow-[2px_2px_0px_rgba(0,0,0,0.3)]`}>
-            {currentPhase.toUpperCase()}
-          </div>
-          <div className={`font-black text-sm opacity-80 ${textColorClass} tracking-widest`}>
-            MONTH {currentMonth}
+
+        {/* Right side: Integrated Brutalist Date Badge */}
+        <div className="flex flex-col items-end">
+          <div className="bg-black text-white px-3 py-1 sm:px-4 sm:py-2 border-[3px] border-black shadow-[4px_4px_0px_0px_#FFF066] transform rotate-2">
+            <span className="font-black uppercase tracking-widest text-xs sm:text-sm text-brand-yellow block text-right">
+              YEAR {dateObj.year}
+            </span>
+            <span className="font-black uppercase tracking-tighter text-xl sm:text-3xl block text-right">
+              {dateObj.month} {dateObj.day}
+            </span>
           </div>
         </div>
       </div>
@@ -141,16 +185,27 @@ export const GameScreen = ({ onQuit }: { onQuit: () => void }) => {
           )}
         </AnimatePresence>
 
-        {/* Question Text Box */}
-        <div className="w-full text-center">
-          <div className="bg-white border-[4px] border-black p-5 sm:p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform -rotate-1 relative">
-            <div className="absolute -top-3 left-4 bg-brand-cyan text-black px-2 py-0.5 text-xs font-black border-[2px] border-black transform -rotate-3">
-              {currentCard?.category.toUpperCase()}
-            </div>
-            <p className="text-black font-black text-xl sm:text-2xl leading-snug">
-              {currentCard?.text}
-            </p>
-          </div>
+        {/* Persistent Text Box Container with Fixed Height to prevent layout shift */}
+        <div className="w-full min-h-[140px] sm:min-h-[160px] flex items-center justify-center relative text-center">
+          <AnimatePresence mode="popLayout">
+            {currentCard && (
+              <motion.div 
+                key={currentCard.id}
+                initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} // A very smooth, custom cubic-bezier ease
+                className="bg-white border-[4px] border-black p-5 sm:p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform -rotate-1 relative w-full absolute"
+              >
+                <div className="absolute -top-3 left-4 bg-brand-cyan text-black px-2 py-0.5 text-xs font-black border-[2px] border-black transform -rotate-3">
+                  {currentCard.category.toUpperCase()}
+                </div>
+                <p className="text-black font-black text-xl sm:text-2xl leading-snug">
+                  {currentCard.text}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Card Area (Stack) */}
@@ -239,39 +294,78 @@ export const GameScreen = ({ onQuit }: { onQuit: () => void }) => {
 };
 
 /**
- * Reigns-style Status Indicator (SVG Fill)
- * The icon itself fills up based on the value (0-100)
+ * Smartwatch Ring Status Indicator (Design 3)
+ * Extremely clear numerical display with a brutalist circular progress ring.
  */
 const StatIcon = ({ type, value }: { type: 'gpa' | 'mentality' | 'energy' | 'experience', value: number }) => {
   const percentage = Math.max(0, Math.min(100, value));
   
-  // Custom SVG paths for the 4 stats (Replaced complex shapes with highly legible, solid-fill-friendly blocky shapes)
-  const paths = {
-    gpa: "M12 3L1 9l11 6 9-4.91V17h2V9zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z", // Graduation Cap (Simplified outline, added 'z' to close the top diamond path)
-    mentality: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z", // A literal Play/Energy circle, much easier to read when filled.
-    energy: "M13 2.05v9h6L7 21.95v-9H1z", // Lightning Bolt (Sharp, thick, brutalist shape without tiny details)
-    experience: "M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" // Briefcase (Blocky)
+  // Use hex colors for direct SVG stroke injection
+  const hexColors = {
+    gpa: "#A6FAFF",      // brand-cyan
+    mentality: "#FFA6F6",// brand-pink
+    energy: "#FFF066",   // brand-yellow
+    experience: "#B8FF9F"// brand-green
+  };
+  
+  const labels = {
+    gpa: "GPA",
+    mentality: "MNT",
+    energy: "ENG",
+    experience: "EXP"
   };
 
-  const pathData = paths[type];
+  const hexColor = hexColors[type];
+  const label = labels[type];
+  
+  // Math for the SVG progress ring
+  const radius = 34; // The radius of the colored stroke
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="relative w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
-      {/* Background fill (Empty state - Light Gray) */}
-      <svg viewBox="0 0 24 24" className="absolute inset-0 w-full h-full fill-gray-200">
-        <path d={pathData} />
-      </svg>
+    <div className="flex flex-col items-center gap-2">
+      <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+        
+        {/* The brutalist badge background and shadow */}
+        <svg 
+          viewBox="0 0 100 100" 
+          className="absolute inset-0 w-full h-full overflow-visible drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]"
+        >
+          {/* Main White Background & Outer Border */}
+          <circle cx="50" cy="50" r="46" fill="white" stroke="black" strokeWidth="8" />
+          
+          {/* Empty Track (Light Gray) */}
+          <circle cx="50" cy="50" r={radius} fill="none" stroke="#E5E7EB" strokeWidth="12" />
+          
+          {/* Colored Progress Ring */}
+          <circle 
+            cx="50" cy="50" r={radius} 
+            fill="none" 
+            stroke={hexColor} 
+            strokeWidth="12" 
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            className="transition-all duration-500 ease-out origin-center -rotate-90"
+            strokeLinecap="butt"
+          />
+          
+          {/* Inner Border to separate the colored ring from the center text area */}
+          <circle cx="50" cy="50" r="28" fill="none" stroke="black" strokeWidth="4" />
+        </svg>
+        
+        {/* Number in the absolute center */}
+        <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none">
+          <span className="font-black text-2xl sm:text-3xl leading-none text-black tracking-tighter">
+            {Math.round(percentage)}
+          </span>
+        </div>
+      </div>
       
-      {/* Dynamic Foreground fill (Filled state - Solid Yellow) using clip-path */}
-      <svg viewBox="0 0 24 24" className="absolute inset-0 w-full h-full fill-brand-yellow transition-all duration-500 ease-out"
-           style={{ clipPath: `inset(${100 - percentage}% 0 0 0)` }}>
-        <path d={pathData} />
-      </svg>
-
-      {/* Wireframe Outline (Always on top, purely for definition) */}
-      <svg viewBox="0 0 24 24" className="absolute inset-0 w-full h-full fill-none stroke-black stroke-[2px] pointer-events-none">
-        <path d={pathData} strokeLinejoin="round" strokeLinecap="round" />
-      </svg>
+      {/* Separated Label completely outside the graphic */}
+      <span className="text-sm sm:text-base font-black uppercase text-black bg-white border-[3px] border-black px-3 py-1 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] tracking-wide">
+        {label}
+      </span>
     </div>
   );
 };

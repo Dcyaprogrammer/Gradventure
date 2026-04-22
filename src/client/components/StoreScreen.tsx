@@ -30,19 +30,22 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
       <div className="absolute inset-0 pointer-events-none transform rotate-12 scale-150 mix-blend-overlay opacity-30" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 100%, 50% 75%, 25% 75%, 25% 100%, 0% 100%)', backgroundColor: '#000' }}></div>
 
       {/* Main Cabinet Frame */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col flex-1 bg-[#FDF9F1] border-[4px] sm:border-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
+      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col flex-1 max-h-[85vh] sm:max-h-[800px] mt-4 sm:mt-8 bg-[#FDF9F1] border-[4px] sm:border-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] mr-2 sm:mr-auto mb-4 sm:mb-8 shrink-0">
         
         {/* Header / Store Signboard */}
         <div className="bg-black border-b-[4px] sm:border-b-[6px] border-black p-2 sm:p-5 sticky top-0 z-30 flex items-center justify-between shadow-[0px_4px_0px_0px_#FFE066] sm:shadow-[0px_6px_0px_0px_#FFE066] gap-2">
-          <button 
-            onClick={onBack}
-            className="bg-white text-black font-black text-[10px] sm:text-sm px-2 py-1 sm:px-3 sm:py-1.5 border-[2px] sm:border-[3px] border-black hover:bg-[#FFA6A6] hover:text-black transition-colors shadow-[2px_2px_0px_0px_#89CFF0] sm:shadow-[3px_3px_0px_0px_#89CFF0] hover:shadow-[2px_2px_0px_0px_#000] active:translate-y-0.5 active:translate-x-0.5 active:shadow-none flex items-center gap-1 transform -rotate-2 shrink-0"
-          >
-            <span>←</span> <span className="hidden sm:inline">EXIT</span>
-          </button>
+          {/* Left spacer/button container to balance flex layout */}
+          <div className="flex-1 flex justify-start">
+            <button 
+              onClick={onBack}
+              className="bg-white text-black font-black text-[10px] sm:text-sm px-2 py-1 sm:px-3 sm:py-1.5 border-[2px] sm:border-[3px] border-black hover:bg-[#FFA6A6] hover:text-black transition-colors shadow-[2px_2px_0px_0px_#89CFF0] sm:shadow-[3px_3px_0px_0px_#89CFF0] hover:shadow-[2px_2px_0px_0px_#000] active:translate-y-0.5 active:translate-x-0.5 active:shadow-none flex items-center gap-1 transform -rotate-2 shrink-0"
+            >
+              <span>←</span> <span className="hidden sm:inline">EXIT</span>
+            </button>
+          </div>
           
-          {/* Glitchy Title */}
-          <div className="relative flex-1 flex justify-center overflow-hidden sm:overflow-visible">
+          {/* Glitchy Title (Centered absolutely relative to parent, or by using flex-1 spacers) */}
+          <div className="relative flex-none flex justify-center overflow-hidden sm:overflow-visible mx-2">
             <h1 className="text-lg sm:text-4xl font-black uppercase tracking-tighter text-white transform rotate-1 z-10 relative whitespace-nowrap">
               BLACK MARKET
             </h1>
@@ -51,14 +54,16 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
             </h1>
           </div>
 
-          {/* Digital Currency Display */}
-          <div className="bg-black text-[#FFE066] border-[2px] sm:border-[3px] border-[#FFE066] px-2 py-1 sm:px-5 sm:py-2 font-black text-xs sm:text-xl shadow-[2px_2px_0px_0px_#FFE066] sm:shadow-[4px_4px_0px_0px_#FFE066] transform rotate-2 shrink-0">
-            <span className="text-white text-[10px] sm:text-sm mr-1 opacity-70">BAL</span>💰 {currency}
+          {/* Digital Currency Display (Right spacer) */}
+          <div className="flex-1 flex justify-end">
+            <div className="bg-black text-[#FFE066] border-[2px] sm:border-[3px] border-[#FFE066] px-2 py-1 sm:px-5 sm:py-2 font-black text-xs sm:text-xl shadow-[2px_2px_0px_0px_#FFE066] sm:shadow-[4px_4px_0px_0px_#FFE066] transform rotate-2 shrink-0">
+              <span className="text-white text-[10px] sm:text-sm mr-1 opacity-70">BAL</span>💰 {currency}
+            </div>
           </div>
         </div>
 
         {/* Showcase Area (The Cabinet Interior) */}
-        <div className="flex-1 p-4 sm:p-10 relative bg-[#FDF9F1]">
+        <div className="flex-1 p-4 sm:p-10 relative bg-[#FDF9F1] overflow-y-auto">
           {/* Cabinet Metal Grid & Glass Reflection */}
           <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'linear-gradient(#000 2px, transparent 2px), linear-gradient(90deg, #000 2px, transparent 2px)', backgroundSize: '32px 32px' }}></div>
           <div className="absolute inset-0 pointer-events-none bg-white opacity-20" style={{ clipPath: 'polygon(15% 0, 35% 0, 20% 100%, 0% 100%)' }}></div>

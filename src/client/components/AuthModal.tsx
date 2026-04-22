@@ -48,29 +48,31 @@ export const AuthModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 font-sans overflow-hidden">
+      <div className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden font-sans">
         {/* High-contrast P5 overlay */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setAuthModalOpen(false)}
-          className="absolute inset-0 bg-[#D0BFFF]/80 backdrop-blur-sm"
+          className="fixed inset-0 bg-[#D0BFFF]/80 backdrop-blur-sm"
           style={{ backgroundImage: 'radial-gradient(#FFE066 2px, transparent 3px)', backgroundSize: '16px 16px' }}
         />
         
-        {/* Main Modal Container - Pop Neo-Brutalism Style */}
-        <motion.div 
-          initial={{ scale: 0.9, opacity: 0, y: 20, rotate: -2 }}
-          animate={{ scale: 1, opacity: 1, y: 0, rotate: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20, rotate: 2 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          className="relative w-full max-w-md z-10"
-        >
-          {/* Close Button */}
+        {/* Scrollable wrapper to prevent vertical cutoff on small screens */}
+        <div className="min-h-full flex items-start sm:items-center justify-center p-4 py-20 sm:p-8 relative pointer-events-none">
+          {/* Main Modal Container - Pop Neo-Brutalism Style */}
+          <motion.div 
+            initial={{ scale: 0.9, opacity: 0, y: 20, rotate: -2 }}
+            animate={{ scale: 1, opacity: 1, y: 0, rotate: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20, rotate: 2 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20 }}
+            className="relative w-full max-w-md z-10 pointer-events-auto mt-12 sm:mt-0"
+          >
+          {/* Close Button (Moved inward to prevent cutoff) */}
           <button 
             onClick={() => setAuthModalOpen(false)}
-            className="absolute -top-4 -right-2 sm:-top-6 sm:-right-4 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black text-white border-[3px] border-white font-black text-xl sm:text-2xl hover:bg-[#FFA6A6] hover:scale-110 transition-all transform rotate-6 z-30 shadow-[4px_4px_0px_0px_#FFA6A6]"
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-black text-white border-[3px] border-white font-black text-xl sm:text-2xl hover:bg-[#FFA6A6] hover:scale-110 transition-all transform rotate-6 z-30 shadow-[4px_4px_0px_0px_#FFA6A6]"
           >
             ✕
           </button>
@@ -98,11 +100,11 @@ export const AuthModal: React.FC = () => {
             {/* Very Subtle Background Pattern */}
             <div className="absolute inset-0 pointer-events-none opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQPSI4Ij48Y2lyY2xlIGN4PSI0IiBjeT0iNCIgcj0iMSIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==')]"></div>
 
-            {/* Interactive Mascot */}
-            <div className="flex justify-center mb-2 -mt-10 sm:-mt-14 relative z-20 pointer-events-none">
+            {/* Interactive Mascot (Moved INSIDE the box) */}
+            <div className="flex justify-center mb-4 mt-0 relative z-20 pointer-events-none">
               <motion.div 
                 animate={isPasswordFocused ? { scale: 1.1, rotate: [0, -5, 5, 0] } : { scale: 1, rotate: 0 }}
-                className="text-[60px] sm:text-[80px] drop-shadow-[4px_4px_0px_#D0BFFF] select-none bg-black rounded-full border-[4px] border-white w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center"
+                className="text-[50px] sm:text-[60px] drop-shadow-[4px_4px_0px_#D0BFFF] select-none bg-black rounded-full border-[4px] border-white w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center"
               >
                 {isPasswordFocused ? '🙈' : '🎓'}
               </motion.div>
@@ -188,6 +190,7 @@ export const AuthModal: React.FC = () => {
             </div>
           </div>
         </motion.div>
+        </div>
       </div>
     </AnimatePresence>
   );

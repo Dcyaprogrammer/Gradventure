@@ -4,33 +4,81 @@ import { motion, AnimatePresence } from 'framer-motion';
 const KNOWLEDGE_CATEGORIES = [
   {
     id: 'agency',
-    title: '中介机构选择与合同签订',
+    title: 'Agencies & Scam Avoidance',
     icon: '🤝',
     color: 'bg-brand-pink',
     points: [
       {
-        title: '如何“避雷”不靠谱中介',
-        content: '• 夸大承诺雷区：警惕任何“保证录取Top 10”、“和名校招生官有合作”等承诺。申请结果取决于你的背景和当年竞争情况，无人能百分百保证。\n• 信息不透明雷区：拒绝无法提供申请邮箱账号和密码的中介。你必须拥有所有申请材料的最终审核权和提交权。\n• 文书模板化雷区：如果对方提供的案例文书千篇一律，缺乏个人特色，说明其文书能力低下。\n• 人员流动性雷区：咨询时问清顾问从业年限，并确保合同中书写的顾问姓名与其一致，防止签约后频繁更换顾问或顾问离职导致申请中断。\n• 口碑调研：除了中介提供的案例，要多方查询其网络评价（如知乎、小红书、贴吧），并尝试联系该中介的过往学生获取真实反馈。'
+        title: 'How to Avoid Unreliable Agencies',
+        content: '• Exaggerated Promises: Beware of "Top 10 Admission Guarantee" or "Partnerships with Admissions Officers". Results depend on your profile and competition; no one can guarantee 100% success.\n• Lack of Transparency: Reject agencies that won\'t share application email accounts and passwords. You must have the final review and submission rights for all materials.\n• Templated Essays: If their sample essays look identical and lack a personal touch, it indicates poor writing capabilities.\n• High Turnover Rate: Ask about the consultant\'s years of experience and ensure their name is in the contract to avoid frequent changes or application disruptions if they leave.\n• Background Check: Beyond the agency\'s successful cases, check online reviews (e.g., Reddit, local forums) and try to contact their past students for genuine feedback.'
       },
       {
-        title: '建议签订时间与合同细节',
-        content: '• 最佳时间：建议在申请季当年的春节后（2-4月）开始接触和筛选中介，最晚在暑假（7-8月）前确定。这样有充足的时间进行背景提升、文书头脑风暴和写作。\n• 合同必看条款：\n  - 服务明细：明确包含哪些学校的哪些专业、申请账号是否共享、文书修改次数上限、是否包含面试辅导等；\n  - 付款方式：强烈建议选择分阶段付款（如签约付30%，文书定稿付40%，收到第一个Offer付尾款30%），避免一次性付全款；\n  - 退款条款：这是合同的核心！必须明确“全拒得”如何退款（如退款比例）、以及若未申请约定数量的学校如何退款。条款要清晰，无模糊字眼；\n  - 附加费用：确认是否包含申请费、邮寄材料费、成绩单翻译认证费等，避免后续产生隐形消费。'
+        title: 'Recommended Signing Time & Contract Details',
+        content: '• Best Timing: Start screening agencies between February and April of the application year, and finalize by summer (July-August) at the latest. This leaves ample time for background improvement, essay brainstorming, and writing.\n• Must-Check Contract Clauses:\n  - Service Details: Clarify included schools/majors, account sharing, essay revision limits, and interview coaching;\n  - Payment Terms: Strongly recommend milestone-based payments (e.g., 30% on signing, 40% on essay finalization, 30% on first offer) instead of full upfront payment;\n  - Refund Policy: The core of the contract! Clearly define refund ratios for "all rejections" or if the agreed number of schools aren\'t applied to. No vague wording;\n  - Extra Fees: Confirm if application, mailing, and transcript translation/certification fees are included to avoid hidden costs.'
+      },
+      {
+        title: 'DIY vs. Semi-DIY vs. All-Inclusive',
+        content: '• All-Inclusive: Suitable for those with poor self-control and extreme time constraints, but highly prone to assembly-line work and loss of application control.\n• Semi-DIY: Agency handles school targeting and essay polishing; you handle the online application and material submission. Best ROI, but requires strong information-gathering skills.\n• Pure DIY: Ideal for top students with great profiles, ample time, and strong execution. Produces the most personalized essays with zero agency fees, but has a high trial-and-error cost.'
       }
     ]
   },
   {
     id: 'language',
-    title: '雅思/托福等语言考试',
+    title: 'Language & Standardized Tests',
     icon: '📝',
     color: 'bg-brand-cyan',
     points: [
       {
-        title: '考试时间点',
-        content: '• 理想时间：最晚应在申请季当年的暑假结束前考出达标的语言成绩。例如，申请2025年秋季入学，应在2025年9月前完成考试并出分；\n• 原因：为后续的文书写作、申请材料准备留出充足时间。如果成绩不理想，还来得及在9-10月进行第二次考试；\n• 出分时间：雅思笔试成绩通常需要13天，托福iBT成绩约需6-10天。安排考试时需算上出分时间。'
+        title: 'IELTS/TOEFL: Exam Timeline',
+        content: '• Ideal Timing: Achieve the target language score by the end of the summer before the application season. E.g., for Fall 2025 admission, finish the exam and get scores by September 2024.\n• Reason: Leaves ample time for essay writing and material preparation. If the score is suboptimal, you still have time for a retake in September-October.\n• Score Release: IELTS paper-based takes about 13 days; TOEFL iBT takes 6-10 days. Factor this in when scheduling.'
       },
       {
-        title: '成绩有效期与要求查询',
-        content: '• 雅思/托福有效期均为2年，从考试日期算起。确保你的成绩在入学注册时依然在有效期内。\n• 官方渠道唯一：绝对不要只听信中介或旁人的说法，必须亲自上目标院校官网的招生页面查询。\n• 看清细节：很多专业不仅要求总分（如雅思7.0），还会要求单项小分（如写作不低于6.5）；同一大学内，文科专业的要求通常比理工科专业更高；\n• 豁免政策：如果你在英语国家完成全日制本科学习并取得学位，通常可以豁免语言成绩。具体政策以官网为准。'
+        title: 'IELTS/TOEFL: Requirements & Waivers',
+        content: '• Official Channels Only: Never rely solely on agencies or hearsay; always check the target university\'s official admissions page.\n• Check Details: Many programs require not just an overall score (e.g., IELTS 7.0) but also sub-scores (e.g., Writing 6.5+). Humanities usually demand higher scores than STEM within the same university.\n• Waiver Policies: If you completed a full-time undergraduate degree in an English-speaking country (usually 2+ years) or meet specific criteria, you can apply for a language score waiver.'
+      },
+      {
+        title: 'GRE/GMAT: Should You Take It?',
+        content: '• Trend: In recent years, more top master\'s programs (especially in the US) have adopted "Test-Optional" policies for GRE/GMAT.\n• Decision Criteria:\n  - If your GPA is low, a high GRE (320+) is strongly recommended to prove academic capability;\n  - For top business schools (e.g., Finance, MBA), a high GMAT (700+) remains a massive plus;\n  - If the target program is Test-Optional and your other profile metrics are extremely strong, you can skip it to save energy.'
+      }
+    ]
+  },
+  {
+    id: 'gpa',
+    title: 'GPA Weight & Background',
+    icon: '📊',
+    color: 'bg-[#FFE066]',
+    points: [
+      {
+        title: 'GPA Weight & Remedies',
+        content: '• Core Metric: GPA is usually the hardest threshold in applications. For most Top 50 schools, 3.0/4.0 is the baseline, 3.5+ is the norm, and 3.8+ offers core competitiveness.\n• Trend Over Absolute Value: If freshman grades are poor but sophomore/junior years show a clear Upward Trend, admissions officers will see your potential and adaptability.\n• Core Major Courses: Grades in major-related courses matter far more than general electives. If overall GPA is low, try listing "Major GPA" separately on your CV or in essays.\n• Remedies: If your GPA is finalized and low, compensate with a high GRE/GMAT, high-value research experience, or excellent summer research/exchange programs.'
+      },
+      {
+        title: 'Research Experience: Finding & Doing',
+        content: '• How to Find: Sending cold emails to professors at your university to assist in their labs is the most direct way. Also, look out for external or overseas summer research programs.\n• No "Fake Research": Name-only research is easily exposed during interviews or essay deep-dives. Admissions care about What you did, Skills applied, and Impact/Result.\n• Goal-Oriented: The ultimate goal of research isn\'t just the experience itself, but producing a paper (even as a co-author) or securing a Strong Recommendation Letter (RL).'
+      },
+      {
+        title: 'Internships: Big Name vs. Core Role?',
+        content: '• Master vs. PhD: For Coursework Masters, high-value internships at Big Name companies are often favored over generic research.\n• Title vs. Content: Between a "marginal admin role at a Big Tech" and a "core business role at a startup", the latter is more valuable for applications as it yields concrete achievements.\n• Duration: A superficial 1-month internship means little. Aim for 2-3 deep internships, each lasting 3+ months.'
+      }
+    ]
+  },
+  {
+    id: 'document',
+    title: 'Essays & Recommendation Letters',
+    icon: '✍️',
+    color: 'bg-[#D0BFFF]',
+    points: [
+      {
+        title: 'Core Logic of PS/SOP',
+        content: '• No Laundry Lists: Don\'t make the PS an expanded CV. The CV is the skeleton; the PS is the flesh. Use specific "stories" or "project details" to show your motivation and skills.\n• Classic Trilogy: Why this field? (Your academic motivation); Why me? (Your preparation and how your research/internships prove your competence); Why this program? (How this specific program helps your career goals).\n• Tailoring: Never mass-submit one PS. Tailoring it to different schools\' curricula, professors\' research, and program vibes (Career-oriented vs. Academic-oriented) is crucial.'
+      },
+      {
+        title: 'CV/Resume Formatting Rules',
+        content: '• One-Page Rule: For undergrads applying to master\'s, strictly keep the CV to 1 page. Omit irrelevant hobbies or lengthy self-evaluations.\n• Action Verbs: Start experience bullet points with strong action verbs (e.g., Developed, Implemented, Designed, Led) instead of a passive "Responsible for".\n• Data-Driven: Quantify your achievements. "Optimized algorithm" is weaker than "Optimized algorithm, reducing runtime by 30%".\n• Reverse Chronological: List both education and experience starting from the most recent (Reverse Chronological Order).'
+      },
+      {
+        title: 'Recommendation Letter (RL) Tips',
+        content: '• "Big Name" vs. "Strong" RL: A letter from an industry giant who knows you well (Big Name + Strong) is ideal. But if the giant only knows you briefly and writes a generic template (Weak), a highly detailed letter from a young associate professor who knows you well (Strong) is much better.\n• Recommender Mix: Usually 2-3 letters are needed. Suggested mix: 2 Academic Recommenders (proving academic/research skills) + 1 Professional Recommender (proving practical/teamwork skills).\n• Communicate Early: Don\'t wait until a week before the deadline. Email them 1-2 months in advance, attaching your CV and transcript to help them write.'
       }
     ]
   }
@@ -38,9 +86,27 @@ const KNOWLEDGE_CATEGORIES = [
 
 export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const toggleCategory = (id: string) => {
     setOpenCategory(openCategory === id ? null : id);
+  };
+
+  const totalPages = KNOWLEDGE_CATEGORIES.length;
+  const currentCategory = KNOWLEDGE_CATEGORIES[currentPage];
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(prev => prev - 1);
+      setOpenCategory(null); // Reset expanded item on page change
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(prev => prev + 1);
+      setOpenCategory(null); // Reset expanded item on page change
+    }
   };
 
   return (
@@ -51,7 +117,7 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
       {/* Giant Abstract Star/Explosion Background - Pop Adjusted */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] bg-[#FFE066] opacity-80 pointer-events-none" style={{ clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' }}></div>
 
-      <div className="relative z-10 w-full max-w-2xl mx-auto flex flex-col h-full bg-[#FDF9F1] border-[6px] border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+      <div className="relative z-10 w-full max-w-xl mx-auto flex flex-col h-full max-h-[85vh] sm:max-h-[800px] bg-[#FDF9F1] border-[6px] border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] mr-4 sm:mr-auto sm:ml-auto">
         {/* Header */}
         <div className="bg-white border-b-[6px] border-black p-3 sm:p-4 sticky top-0 z-20 flex items-center justify-between shadow-[0px_4px_0px_0px_#D0BFFF]">
           <button 
@@ -66,25 +132,32 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
           <div className="w-12 sm:w-24"></div> {/* Spacer for centering */}
         </div>
 
-        {/* Content */}
+        {/* Content (Paginated) */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-8 bg-[#FDF9F1] relative">
           
           {/* Subtle brutalist grid inside content area */}
           <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
 
-          {KNOWLEDGE_CATEGORIES.map((category) => (
-            <div key={category.id} className="mb-10 relative z-10">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentCategory.id}
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -20, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mb-10 relative z-10"
+            >
               {/* Category Header - Pop Tag Style with Shadow Layer */}
-              <div className="relative inline-block mb-4 ml-2">
+              <div className="relative inline-block mb-6 ml-2 mt-2">
                 <div className="absolute inset-0 bg-black transform translate-x-2 translate-y-2 -rotate-1"></div>
-                <div className="relative bg-[#FFB3D9] text-black font-black uppercase text-sm sm:text-base px-4 py-2 border-[3px] border-black transform -rotate-3">
-                  <span className="mr-2">{category.icon}</span> {category.title}
+                <div className={`relative ${currentCategory.color || 'bg-[#FFB3D9]'} text-black font-black uppercase text-base sm:text-lg px-4 py-2 border-[3px] border-black transform -rotate-3`}>
+                  <span className="mr-2">{currentCategory.icon}</span> {currentCategory.title}
                 </div>
               </div>
               
               <div className="space-y-4">
-                {category.points.map((point, index) => {
-                  const itemId = `${category.id}-${index}`;
+                {currentCategory.points.map((point, index) => {
+                  const itemId = `${currentCategory.id}-${index}`;
                   const isExpanded = openCategory === itemId;
                   
                   return (
@@ -153,8 +226,31 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
                   );
                 })}
               </div>
-            </div>
-          ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Footer Pagination Controls */}
+        <div className="bg-white border-t-[6px] border-black p-4 sticky bottom-0 z-20 flex items-center justify-between shadow-[0px_-4px_0px_0px_#D0BFFF]">
+          <button 
+            onClick={handlePrevPage}
+            disabled={currentPage === 0}
+            className={`font-black text-sm sm:text-base px-4 py-2 border-[3px] border-black transform rotate-1 transition-all ${currentPage === 0 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#89CFF0] text-black hover:bg-black hover:text-[#89CFF0] shadow-[3px_3px_0px_0px_#000] active:translate-y-1 active:translate-x-1 active:shadow-none'}`}
+          >
+            ← PREV
+          </button>
+          
+          <div className="font-black text-lg tracking-widest bg-black text-white px-3 py-1 border-[2px] border-white transform -rotate-2">
+            {currentPage + 1} / {totalPages}
+          </div>
+          
+          <button 
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages - 1}
+            className={`font-black text-sm sm:text-base px-4 py-2 border-[3px] border-black transform -rotate-1 transition-all ${currentPage === totalPages - 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-[#FFE066] text-black hover:bg-black hover:text-[#FFE066] shadow-[3px_3px_0px_0px_#000] active:translate-y-1 active:translate-x-1 active:shadow-none'}`}
+          >
+            NEXT →
+          </button>
         </div>
       </div>
     </div>

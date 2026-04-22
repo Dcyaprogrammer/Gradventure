@@ -16,7 +16,7 @@ interface AuthState {
   
   // Actions
   initialize: () => Promise<void>;
-  signInAnonymously: () => Promise<void>;
+  signInAnonymously: (background?: boolean) => Promise<void>;
   signOut: () => Promise<void>;
   setAuthModalOpen: (isOpen: boolean) => void;
 }
@@ -52,8 +52,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       // Handle Demo Mode Logic
       if (IS_DEMO_MODE && !session) {
-        // If in demo mode and no active session, sign in silently
-        await get().signInAnonymously();
+        // If in demo mode and no active session, sign in silently in the background
+        set({ isLoading: false }); // Unblock UI immediately
+        get().signInAnonymously(true);
       } else {
         set({ 
           session, 
@@ -68,9 +69,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
   },
 
-  signInAnonymously: async () => {
+  signInAnonymously: async (background = false) => {
     try {
-      set({ isLoading: true, error: null });
+      if (!background) set({ isLoading: true, error: null });
       const { data, error } = await supabase.auth.signInAnonymously();
       
       if (error) throw error;
@@ -79,12 +80,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user: data.user, 
         session: data.session,
         isAnonymous: true,
-        isLoading: false 
+        ...(!background && { isLoading: false })
       });
       
       console.log('Signed in anonymously with UID:', data.user?.id);
     } catch (error: any) {
-      set({ error: error.message, isLoading: false });
+      set({ error: error.message, ...(!background && { isLoading: false }) });
       console.error('Anonymous sign-in error:', error.message);
     }
   },

@@ -169,9 +169,9 @@ export const GameScreen = ({
             </div>
 
             {/* Currency Reward Stamp */}
-            <div className="flex items-center justify-between w-full bg-black text-white font-black py-3 px-3 sm:px-5 border-[4px] border-black transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] gap-2">
-              <span className="text-xs sm:text-sm opacity-80 uppercase tracking-widest truncate">Total Balance</span>
-              <span className={`text-xl sm:text-3xl shrink-0 ${isWin ? 'text-[#89CFF0]' : 'text-[#FFE066]'}`}>💰 {currency}</span>
+            <div className="flex items-center justify-between w-full bg-black text-white font-black py-3 px-5 border-[4px] border-black transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+              <span className="text-sm opacity-80 uppercase tracking-widest">Total Balance</span>
+              <span className={`text-3xl ${isWin ? 'text-[#89CFF0]' : 'text-[#FFE066]'}`}>💰 {currency}</span>
             </div>
 
             {/* Action Buttons */}
@@ -251,10 +251,10 @@ export const GameScreen = ({
       )}
 
       {/* TOP STATUS BAR (Pop Design) */}
-      <div className="relative z-20 w-full bg-white border-b-[6px] border-black shadow-[0_6px_0_0_#D0BFFF] px-2 py-3 sm:px-8 sm:py-6 flex justify-between items-center gap-2">
+      <div className="relative z-20 w-full bg-white border-b-[6px] border-black shadow-[0_6px_0_0_#D0BFFF] px-4 py-4 sm:px-8 sm:py-6 flex justify-between items-center">
         
         {/* Left side: The 4 core stats */}
-        <div className="flex items-start gap-1 sm:gap-3 md:gap-6 shrink min-w-0">
+        <div className="flex items-start gap-3 sm:gap-6">
           <StatIcon type="gpa" value={stats.gpa} previewDelta={previewStats?.gpa} />
           <StatIcon type="mentality" value={stats.mentality} previewDelta={previewStats?.mentality} />
           <StatIcon type="energy" value={stats.energy} previewDelta={previewStats?.energy} />
@@ -586,9 +586,9 @@ const StatIcon = ({ type, value, previewDelta }: { type: 'gpa' | 'mentality' | '
   const isPositive = previewDelta ? previewDelta > 0 : false;
   
   return (
-    <div className="flex flex-col items-center gap-1 sm:gap-2">
+    <div className="flex flex-col items-center gap-2">
       <motion.div 
-        className="relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 flex items-center justify-center shrink-0"
+        className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center"
         animate={isPreviewing ? {
           scale: [1, 1.15, 1],
           rotate: isPositive ? [0, 5, -5, 0] : [0, -5, 5, 0],
@@ -641,14 +641,14 @@ const StatIcon = ({ type, value, previewDelta }: { type: 'gpa' | 'mentality' | '
         
         {/* Number in the absolute center */}
         <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none">
-          <span className={`font-black text-lg sm:text-2xl md:text-3xl leading-none tracking-tighter transition-colors ${isPreviewing ? (isPositive ? 'text-[#89CFF0]' : 'text-[#FFA6A6]') : 'text-black'}`}>
+          <span className={`font-black text-2xl sm:text-3xl leading-none tracking-tighter transition-colors ${isPreviewing ? (isPositive ? 'text-[#89CFF0]' : 'text-[#FFA6A6]') : 'text-black'}`}>
             {Math.round(percentage)}
           </span>
         </div>
       </motion.div>
       
       {/* Separated Label completely outside the graphic */}
-      <span className={`text-[9px] sm:text-xs md:text-sm font-black uppercase border-[2px] sm:border-[3px] border-black px-1 sm:px-2 py-0.5 shadow-[2px_2px_0px_0px_#FFA6A6] sm:shadow-[3px_3px_0px_0px_#FFA6A6] tracking-wide transform -rotate-3 transition-colors ${isPreviewing ? (isPositive ? 'bg-[#89CFF0] text-black' : 'bg-[#FFA6A6] text-white') : 'bg-white text-black'}`}>
+      <span className={`text-xs sm:text-sm font-black uppercase border-[3px] border-black px-2 py-0.5 shadow-[3px_3px_0px_0px_#FFA6A6] tracking-wide transform -rotate-3 transition-colors ${isPreviewing ? (isPositive ? 'bg-[#89CFF0] text-black' : 'bg-[#FFA6A6] text-white') : 'bg-white text-black'}`}>
         {label}
       </span>
     </div>

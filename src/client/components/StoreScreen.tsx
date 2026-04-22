@@ -24,7 +24,7 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-[#D0BFFF] flex flex-col font-sans p-2 sm:p-8 relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#D0BFFF] flex flex-col font-sans p-2 sm:p-8 relative overflow-x-hidden">
       {/* Abstract Pop Background */}
       <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'radial-gradient(#000 3px, transparent 4px)', backgroundSize: '24px 24px' }}></div>
       <div className="absolute inset-0 pointer-events-none transform rotate-12 scale-150 mix-blend-overlay opacity-30" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 100%, 50% 75%, 25% 75%, 25% 100%, 0% 100%)', backgroundColor: '#000' }}></div>
@@ -42,11 +42,11 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
           </button>
           
           {/* Glitchy Title */}
-          <div className="relative flex-1 flex justify-center overflow-hidden sm:overflow-visible min-w-0 px-1 sm:px-2">
-            <h1 className="text-sm sm:text-4xl font-black uppercase tracking-tighter text-white transform rotate-1 z-10 relative whitespace-nowrap truncate">
+          <div className="relative flex-1 flex justify-center overflow-hidden sm:overflow-visible">
+            <h1 className="text-lg sm:text-4xl font-black uppercase tracking-tighter text-white transform rotate-1 z-10 relative whitespace-nowrap">
               BLACK MARKET
             </h1>
-            <h1 className="text-sm sm:text-4xl font-black uppercase tracking-tighter text-[#FFB3D9] absolute top-[1px] sm:top-1 left-1/2 -translate-x-[49%] transform -rotate-1 z-0 whitespace-nowrap truncate">
+            <h1 className="text-lg sm:text-4xl font-black uppercase tracking-tighter text-[#FFB3D9] absolute top-[1px] sm:top-1 left-1/2 -translate-x-[49%] transform -rotate-1 z-0 whitespace-nowrap">
               BLACK MARKET
             </h1>
           </div>

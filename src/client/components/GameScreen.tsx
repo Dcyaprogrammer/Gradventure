@@ -92,7 +92,6 @@ export const GameScreen = ({
     panic: 'bg-[#FFA6A6]'      // Coral Red background with black/white elements
   };
   const bgColorClass = themeColors[activeStressLevel] || themeColors.grind;
-  const isDarkTheme = false; // In Pop style, backgrounds are bright, text is always black
   const textColorClass = 'text-black';
 
   // Dynamic screen shake for panic

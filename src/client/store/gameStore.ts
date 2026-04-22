@@ -637,6 +637,7 @@ interface GameState {
   // Game Progression
   currentDay: number; // The absolute total number of days elapsed since the game started
   currency: number; // Persistent across games
+  hasSeenTutorial: boolean;
   
   // Current Card State
   deck: Card[];
@@ -657,6 +658,7 @@ interface GameState {
   applyStatChanges: (delta: Partial<Record<StatKey, number>>) => void;
   clearFeedback: () => void;
   spendCurrency: (amount: number) => boolean;
+  completeTutorial: () => void;
 }
 
 // Helper constants for the calendar system
@@ -698,6 +700,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   isGameOver: false,
   gameOverReason: null,
   isWin: false,
+  hasSeenTutorial: false,
 
   initializeGame: () => {
     // For the demo, we always start with the specific starting card.
@@ -713,7 +716,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       feedbackMessage: null,
       isGameOver: false,
       gameOverReason: null,
-      isWin: false
+      isWin: false,
+      hasSeenTutorial: false // For DEMO purposes: ALWAYS reset tutorial to false on new game
       // Notice we do NOT reset currency
     });
   },
@@ -866,5 +870,6 @@ export const useGameStore = create<GameState>((set, get) => ({
       return true;
     }
     return false;
-  }
+  },
+  completeTutorial: () => set({ hasSeenTutorial: true })
 }));

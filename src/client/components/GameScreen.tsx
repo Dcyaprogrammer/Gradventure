@@ -11,11 +11,30 @@ export const GameScreen = ({
   onQuit: () => void; 
   onNavigate: (view: 'store' | 'knowledge') => void; 
 }) => {
-  const { stats, activeStressLevel, currentDay, currentCard, isGameOver, gameOverReason, isWin, currency, initializeGame, makeChoice } = useGameStore();
+  const { stats, activeStressLevel, currentDay, currentCard, isGameOver, gameOverReason, isWin, currency, initializeGame, makeChoice, hasSeenTutorial, completeTutorial } = useGameStore();
   
   const dateObj = getFormattedDate(currentDay);
 
   const [feedbackText, setFeedbackText] = useState<string | null>(null);
+  
+  // Tutorial State (0: Not started/done, 1: Stats, 2: Goal, 3: Swipe)
+  const [tutorialStep, setTutorialStep] = useState<number>(0);
+
+  useEffect(() => {
+    // If game initializes and hasn't seen tutorial, start step 1
+    if (!hasSeenTutorial && !isGameOver && currentCard) {
+      setTutorialStep(1);
+    }
+  }, [hasSeenTutorial, isGameOver, currentCard]);
+
+  const advanceTutorial = () => {
+    if (tutorialStep === 3) {
+      setTutorialStep(0);
+      completeTutorial(); // Persist it
+    } else {
+      setTutorialStep(prev => prev + 1);
+    }
+  };
   
   // Dragging State & Animations
   const x = useMotionValue(0);
@@ -258,6 +277,93 @@ export const GameScreen = ({
       {/* Main Play Area */}
       <div className="flex-1 flex flex-col items-center justify-start pt-12 sm:pt-16 px-6 pb-6 w-full max-w-lg mx-auto gap-8 sm:gap-12 z-10">
         
+        {/* Tutorial Overlay */}
+        <AnimatePresence>
+          {tutorialStep > 0 && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto"
+              onClick={advanceTutorial}
+            >
+              {/* Dark Overlay with cutouts (Only dark for steps 1 and 3) */}
+              <div className={`absolute inset-0 transition-colors duration-500 ${tutorialStep === 2 ? 'bg-black/40' : 'bg-black/80'}`} />
+              
+              {/* Tutorial Content Step 1: The Stats */}
+              {tutorialStep === 1 && (
+                <div className="absolute top-[28%] sm:top-[30%] left-0 right-0 flex flex-col items-center">
+                  <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    className="bg-white border-[4px] border-black p-4 font-black text-base sm:text-lg max-w-sm text-center shadow-[6px_6px_0px_0px_#FFA6A6] transform rotate-2 relative z-50"
+                  >
+                    <p className="text-xl mb-3">Keep your stats balanced!</p>
+                    <ul className="text-sm text-left inline-block space-y-1 mb-3">
+                      <li><span className="text-[#D0BFFF] mr-1">●</span> <b>GPA:</b> Academic Grades</li>
+                      <li><span className="text-[#FFA6A6] mr-1">●</span> <b>MNT:</b> Mentality & Stress</li>
+                      <li><span className="text-[#FFE066] mr-1">●</span> <b>ENG:</b> Energy & Health</li>
+                      <li><span className="text-[#89CFF0] mr-1">●</span> <b>EXP:</b> Resume & Experience</li>
+                    </ul>
+                    <p className="text-sm mt-2 text-gray-800">If any of them drop to 0, you're out.</p>
+                    <div className="text-xs text-gray-400 mt-4 animate-pulse">(Tap anywhere to continue)</div>
+                  </motion.div>
+                </div>
+              )}
+
+              {/* Tutorial Content Step 2: The Interaction */}
+              {tutorialStep === 2 && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50">
+                  
+                  {/* The text box floating right above the card */}
+                  <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    className="absolute top-[18%] sm:top-[22%] bg-white border-[4px] border-black p-4 font-black text-lg max-w-[280px] sm:max-w-xs text-center shadow-[6px_6px_0px_0px_#D0BFFF] transform rotate-1 pointer-events-auto z-50"
+                  >
+                    <p>Swipe the card LEFT or RIGHT to make decisions.</p>
+                    <p className="text-sm mt-2 text-gray-600">Watch the dots above to see which stats will change!</p>
+                    <div className="text-xs text-gray-400 mt-4 animate-pulse">(Tap anywhere to continue)</div>
+                  </motion.div>
+
+                  {/* The Spotlight Box that frames the card */}
+                  <div className="absolute top-[60%] sm:top-[65%] -translate-y-1/2 w-72 h-80 sm:w-80 sm:h-96 border-[6px] border-dashed border-[#FFE066] rounded-xl shadow-[0_0_0_9999px_rgba(0,0,0,0.6)] pointer-events-none z-40">
+                  </div>
+                  
+                  {/* Fake animated hand/arrows flanking the card */}
+                  <div className="absolute top-[60%] sm:top-[65%] -translate-y-1/2 left-0 right-0 flex justify-between px-2 sm:px-8 pointer-events-none max-w-[360px] sm:max-w-[420px] mx-auto z-50">
+                    <motion.div 
+                      animate={{ x: [-10, 0, -10] }} 
+                      transition={{ repeat: Infinity, duration: 1 }}
+                      className="text-5xl sm:text-6xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]"
+                    >👈</motion.div>
+                    <motion.div 
+                      animate={{ x: [10, 0, 10] }} 
+                      transition={{ repeat: Infinity, duration: 1 }}
+                      className="text-5xl sm:text-6xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]"
+                    >👉</motion.div>
+                  </div>
+                </div>
+              )}
+
+              {/* Tutorial Content Step 3: The Goal */}
+              {tutorialStep === 3 && (
+                <div className="absolute top-1/3 left-0 right-0 flex flex-col items-center">
+                  <motion.div 
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="bg-[#FFE066] border-[4px] border-black p-6 font-black text-xl max-w-xs text-center shadow-[8px_8px_0px_0px_#89CFF0] transform -rotate-2 relative z-50"
+                  >
+                    <p className="text-3xl mb-2">🎯 GOAL</p>
+                    <p>Survive the entire application season.</p>
+                    <div className="text-xs text-black/60 mt-4 animate-pulse">(Tap anywhere to start)</div>
+                  </motion.div>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Feedback Overlay */}
         <AnimatePresence>
           {feedbackText && (

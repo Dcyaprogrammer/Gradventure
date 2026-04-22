@@ -92,7 +92,7 @@ function App() {
       >
         <div className="bg-black text-white border-[6px] border-black px-6 py-2 transform -rotate-3 mb-6 shadow-[8px_8px_0px_0px_#89CFF0]">
           <span className="font-black uppercase tracking-widest text-lg sm:text-xl">
-            READY TO SUFFER ?
+            READY TO APPLY ?
           </span>
         </div>
         

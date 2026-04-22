@@ -7,7 +7,17 @@
     <title>Gradventure</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        body { margin: 0; background-color: #000; color: #fff; font-family: sans-serif; }
+        .initial-loader { display: flex; height: 100vh; width: 100vw; align-items: center; justify-content: center; background-color: #000; }
+        .initial-loader h2 { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+      </style>
+      <div class="initial-loader">
+        <h2>Loading Assets...</h2>
+      </div>
+    </div>
     <script type="module" src="/src/client/main.tsx"></script>
   </body>
 </html>

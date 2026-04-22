@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useAuthStore } from './store/authStore';
-import { AuthModal } from './components/AuthModal';
-import { GameScreen } from './components/GameScreen';
-import { StoreScreen } from './components/StoreScreen';
-import { KnowledgeBaseScreen } from './components/KnowledgeBaseScreen';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const AuthModal = lazy(() => import('./components/AuthModal').then(module => ({ default: module.AuthModal })));
+const GameScreen = lazy(() => import('./components/GameScreen').then(module => ({ default: module.GameScreen })));
+const StoreScreen = lazy(() => import('./components/StoreScreen').then(module => ({ default: module.StoreScreen })));
+const KnowledgeBaseScreen = lazy(() => import('./components/KnowledgeBaseScreen').then(module => ({ default: module.KnowledgeBaseScreen })));
 
 function App() {
   const { user, isAnonymous, isLoading, error, initialize, signOut, setAuthModalOpen, signInAnonymously } = useAuthStore();
@@ -14,29 +15,41 @@ function App() {
     initialize();
   }, [initialize]);
 
+  const loadingFallback = (
+    <div className="min-h-screen bg-black flex items-center justify-center font-sans">
+      <h2 className="text-2xl font-black uppercase text-white animate-pulse">Loading Assets...</h2>
+    </div>
+  );
+
   if (currentView === 'game' && user) {
     return (
-      <GameScreen 
-        onQuit={() => setCurrentView('home')} 
-        onNavigate={(view) => setCurrentView(view)} 
-      />
+      <Suspense fallback={loadingFallback}>
+        <GameScreen 
+          onQuit={() => setCurrentView('home')} 
+          onNavigate={(view) => setCurrentView(view)} 
+        />
+      </Suspense>
     );
   }
 
   if (currentView === 'store') {
-    return <StoreScreen onBack={() => setCurrentView('home')} />;
+    return (
+      <Suspense fallback={loadingFallback}>
+        <StoreScreen onBack={() => setCurrentView('home')} />
+      </Suspense>
+    );
   }
 
   if (currentView === 'knowledge') {
-    return <KnowledgeBaseScreen onBack={() => setCurrentView('home')} />;
+    return (
+      <Suspense fallback={loadingFallback}>
+        <KnowledgeBaseScreen onBack={() => setCurrentView('home')} />
+      </Suspense>
+    );
   }
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center font-sans">
-        <h2 className="text-2xl font-black uppercase text-white animate-pulse">Loading Assets...</h2>
-      </div>
-    );
+    return loadingFallback;
   }
 
   // Generate warning tape text (Grad school application themed)
@@ -172,7 +185,9 @@ function App() {
       </AnimatePresence>
 
       {/* Render the global Auth Modal */}
-      <AuthModal />
+      <Suspense fallback={null}>
+        <AuthModal />
+      </Suspense>
     </div>
   );
 }

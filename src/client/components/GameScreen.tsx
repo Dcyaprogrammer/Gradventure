@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import type { PanInfo } from 'framer-motion';
 import { useGameStore, getFormattedDate } from '../store/gameStore';
+import type { StatKey } from '../../types/game';
 
 export const GameScreen = ({ 
   onQuit, 
@@ -20,12 +21,30 @@ export const GameScreen = ({
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-10, 10]);
   
+  const [previewStats, setPreviewStats] = useState<Partial<Record<StatKey, number>> | null>(null);
+
   // When dragging right (x > 0), the left choice text appears
   const rightOpacity = useTransform(x, [20, 100], [0, 1]);
   // When dragging left (x < 0), the right choice text appears
   const leftOpacity = useTransform(x, [-20, -100], [0, 1]);
   
   const controls = useAnimation();
+
+  // Watch x to determine preview stats
+  useEffect(() => {
+    const unsubscribe = x.on("change", (latest) => {
+      if (!currentCard) return;
+      const threshold = 30; // Amount of pixels dragged before preview kicks in
+      if (latest < -threshold) {
+        setPreviewStats(currentCard.choices.left.effect.stats || null);
+      } else if (latest > threshold) {
+        setPreviewStats(currentCard.choices.right.effect.stats || null);
+      } else {
+        setPreviewStats(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [x, currentCard]);
 
   useEffect(() => {
     initializeGame();
@@ -66,107 +85,178 @@ export const GameScreen = ({
     onQuit();
   };
 
-  // Theme logic based on stress level
+  // Theme logic based on stress level - Pop Palette
   const themeColors = {
-    chill: 'bg-brand-cyan', // Light Cyan -> Black text preferred
-    grind: 'bg-gray-200',   // Light Gray -> Black text preferred
-    panic: 'bg-red-600'     // Dark Red -> White text preferred
+    chill: 'bg-[#FDF9F1]',     // Cream background with black/color elements
+    grind: 'bg-[#FFE066]',     // Yellow background with black/white elements
+    panic: 'bg-[#FFA6A6]'      // Coral Red background with black/white elements
   };
   const bgColorClass = themeColors[activeStressLevel] || themeColors.grind;
-  const isDarkTheme = activeStressLevel === 'panic';
-  const textColorClass = isDarkTheme ? 'text-white' : 'text-black';
+  const isDarkTheme = false; // In Pop style, backgrounds are bright, text is always black
+  const textColorClass = 'text-black';
+
+  // Dynamic screen shake for panic
+  const shakeAnimation = activeStressLevel === 'panic' ? {
+    x: [0, -2, 2, -2, 2, 0],
+    y: [0, 2, -2, 2, -2, 0],
+    transition: { duration: 0.2, repeat: Infinity, repeatDelay: 3 }
+  } : {};
 
   if (isGameOver) {
     return (
-      <div className="min-h-[100dvh] bg-brand-yellow flex flex-col items-center justify-center p-4 sm:p-6 font-sans relative overflow-hidden">
-        {/* Background graphic */}
-        <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+      <div className={`min-h-[100dvh] flex flex-col items-center justify-center p-4 sm:p-6 font-sans relative overflow-hidden transition-colors duration-500 ${isWin ? 'bg-[#89CFF0]' : 'bg-[#FFA6A6]'}`}>
         
-        <div className="bg-white border-[8px] border-black p-6 sm:p-8 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] max-w-md w-full text-center transform -rotate-1 relative z-10">
-          <h1 className={`text-4xl sm:text-5xl font-black uppercase tracking-tighter mb-4 ${isWin ? 'text-brand-green' : 'text-brand-pink'}`}>
-            {isWin ? 'VICTORY' : 'GAME OVER'}
-          </h1>
+        {/* Dynamic Background Elements */}
+        <div className="absolute inset-0 pointer-events-none mix-blend-color-burn overflow-hidden">
+          {/* Huge abstract geometric background */}
+          <div className={`absolute top-0 left-0 w-[150%] h-[150%] ${isWin ? 'bg-white' : 'bg-[#FFE066]'} opacity-40 transform -rotate-12 scale-150`} style={{ clipPath: 'polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 100%, 50% 75%, 25% 75%, 25% 100%, 0% 100%)' }}></div>
           
-          <div className={`p-4 font-bold text-lg sm:text-xl mb-6 border-[4px] border-black transform rotate-1 ${isWin ? 'bg-brand-cyan text-black shadow-[4px_4px_0px_0px_#000]' : 'bg-black text-white shadow-[4px_4px_0px_0px_#FFA6F6]'}`}>
-            {gameOverReason}
-          </div>
-
-          <div className="bg-black text-white font-black text-xl py-2 mb-6 border-4 border-black inline-block px-6">
-            💰 Currency: {currency}
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <button 
-              onClick={() => initializeGame()}
-              className="w-full bg-brand-yellow text-black border-[6px] border-black font-black uppercase tracking-widest text-xl py-3 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-pink transition-all hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-            >
-              PLAY AGAIN
-            </button>
-            
-            <div className="flex gap-4">
-              <button 
-                onClick={() => onNavigate('store')}
-                className="flex-1 bg-white text-black border-[4px] border-black font-black uppercase tracking-wider text-sm sm:text-base py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-cyan transition-all hover:translate-y-1 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)]"
-              >
-                🏪 STORE
-              </button>
-              <button 
-                onClick={() => onNavigate('knowledge')}
-                className="flex-1 bg-white text-black border-[4px] border-black font-black uppercase tracking-wider text-sm sm:text-base py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-brand-green transition-all hover:translate-y-1 hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)]"
-              >
-                📚 GUIDE
-              </button>
+          {/* Animated Marquee Text */}
+          <div className={`absolute top-1/4 -left-[20vw] w-[150vw] h-20 ${isWin ? 'bg-black text-[#89CFF0]' : 'bg-black text-[#FFE066]'} font-black text-6xl flex items-center overflow-hidden transform rotate-[15deg] shadow-[10px_10px_0px_rgba(0,0,0,0.2)]`}>
+            <div className="animate-marquee-fast-left whitespace-nowrap tracking-widest">
+              {Array(20).fill(isWin ? " MISSION ACCOMPLISHED " : " GAME OVER ").join("")}
             </div>
-            <button 
-              onClick={handleQuit}
-              className="mt-2 text-sm font-black underline decoration-2 hover:text-brand-pink transition-colors"
-            >
-              RETURN TO TITLE
-            </button>
+          </div>
+          <div className={`absolute top-2/3 -left-[20vw] w-[150vw] h-16 ${isWin ? 'bg-white text-black' : 'bg-white text-black'} font-black text-5xl flex items-center overflow-hidden transform -rotate-[8deg] shadow-[5px_5px_0px_rgba(0,0,0,0.2)]`}>
+            <div className="animate-marquee-fast-right whitespace-nowrap">
+              {Array(20).fill(isWin ? " YOU SURVIVED " : " TRY AGAIN ").join("")}
+            </div>
           </div>
         </div>
+        
+        {/* Main Content Card - Irregular Pop Style */}
+        <div className="relative z-10 w-full max-w-sm mt-8">
+          
+          {/* Huge Title Header */}
+          <div className={`absolute -top-10 -left-6 sm:-left-10 z-20 ${isWin ? 'bg-black text-[#89CFF0]' : 'bg-black text-white'} px-6 py-2 border-[4px] border-white transform -rotate-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]`}>
+            <h1 className="text-5xl sm:text-6xl font-black uppercase tracking-tighter">
+              {isWin ? 'VICTORY' : 'FAILED'}
+            </h1>
+          </div>
+
+          {/* Shadow Layer */}
+          <div 
+            className="absolute inset-0 bg-black transform translate-x-3 translate-y-3"
+            style={{ clipPath: 'polygon(2% 0, 100% 3%, 98% 100%, 0 97%)' }}
+          ></div>
+          
+          {/* Content Layer */}
+          <div 
+            className={`bg-white border-[6px] border-black px-6 pt-16 pb-8 relative w-full flex flex-col items-center justify-center gap-6`}
+            style={{ clipPath: 'polygon(2% 0, 100% 3%, 98% 100%, 0 97%)' }}
+          >
+            {/* Reason / Narrative Outcome */}
+            <div className={`w-full p-4 font-black text-lg sm:text-xl leading-tight border-[4px] border-black transform ${isWin ? 'bg-[#89CFF0] text-black shadow-[4px_4px_0px_0px_#000] rotate-1' : 'bg-[#FFA6A6] text-black shadow-[4px_4px_0px_0px_#000] -rotate-1'}`}>
+              {gameOverReason}
+            </div>
+
+            {/* Currency Reward Stamp */}
+            <div className="flex items-center justify-between w-full bg-black text-white font-black py-3 px-5 border-[4px] border-black transform rotate-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+              <span className="text-sm opacity-80 uppercase tracking-widest">Total Balance</span>
+              <span className={`text-3xl ${isWin ? 'text-[#89CFF0]' : 'text-[#FFE066]'}`}>💰 {currency}</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3 w-full mt-2 relative">
+              <button 
+                onClick={() => initializeGame()}
+                className={`w-full bg-white text-black border-[4px] border-black font-black uppercase tracking-widest text-2xl py-3 ${isWin ? 'shadow-[6px_6px_0px_0px_#89CFF0]' : 'shadow-[6px_6px_0px_0px_#FFA6A6]'} hover:bg-black hover:text-white transition-all transform -rotate-1 active:translate-y-1 active:shadow-none`}
+              >
+                RESTART
+              </button>
+              
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => onNavigate('store')}
+                  className="flex-1 bg-black text-white border-[4px] border-black font-black uppercase tracking-wider text-lg py-2 shadow-[4px_4px_0px_0px_#D0BFFF] hover:bg-[#D0BFFF] hover:text-black transition-all transform rotate-1 active:translate-y-1 active:shadow-none"
+                >
+                  🏪 STORE
+                </button>
+                <button 
+                  onClick={() => onNavigate('knowledge')}
+                  className="flex-1 bg-black text-white border-[4px] border-black font-black uppercase tracking-wider text-lg py-2 shadow-[4px_4px_0px_0px_#FFE066] hover:bg-[#FFE066] hover:text-black transition-all transform -rotate-1 active:translate-y-1 active:shadow-none"
+                >
+                  📚 GUIDE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Return to title floating link */}
+        <button 
+          onClick={handleQuit}
+          className="mt-12 z-20 text-lg font-black underline decoration-4 text-black bg-white px-4 py-1 border-[3px] border-black transform rotate-3 hover:scale-110 transition-transform"
+        >
+          EXIT TO REALITY
+        </button>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-[100dvh] ${bgColorClass} flex flex-col font-sans relative overflow-hidden transition-colors duration-500`}>
-      {/* Background Graphic (Changes based on stress) */}
+    <motion.div 
+      animate={shakeAnimation}
+      className={`min-h-[100dvh] ${bgColorClass} flex flex-col font-sans relative overflow-hidden transition-colors duration-500`}
+    >
+      {/* Background Graphic (Pop Theme - Halftone / Abstract shapes) */}
       {activeStressLevel === 'panic' && (
-        <div className="absolute inset-0 pointer-events-none z-0 opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 10px, transparent 10px, transparent 20px)' }}></div>
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden mix-blend-color-burn">
+          {/* Huge abstract pop spikes */}
+          <div className="absolute top-0 left-0 w-[120%] h-[120%] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==')] bg-[length:20px_20px] opacity-30 transform -rotate-12 scale-150"></div>
+          <div className="absolute top-1/4 -left-[20vw] w-[150vw] h-16 bg-black text-white font-black text-5xl flex items-center overflow-hidden transform rotate-[15deg] shadow-[10px_10px_0px_#FFE066]">
+            <div className="animate-marquee-fast-left whitespace-nowrap tracking-widest">
+              {Array(20).fill(" DANGER !! ").join("")}
+            </div>
+          </div>
+          <div className="absolute top-2/3 -left-[20vw] w-[150vw] h-12 bg-white text-black font-black text-3xl flex items-center overflow-hidden transform -rotate-[8deg] shadow-[5px_5px_0px_#D0BFFF]">
+            <div className="animate-marquee-fast-right whitespace-nowrap">
+              {Array(20).fill(" DEADLINE APPROACHING ").join("")}
+            </div>
+          </div>
+        </div>
       )}
       {activeStressLevel === 'grind' && (
-        <div className="absolute inset-0 pointer-events-none z-0 opacity-[0.15]" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+           {/* Abstract bright geometric shapes in background */}
+           <div className="absolute -top-20 -right-20 w-96 h-96 bg-[#FFA6A6] transform rotate-45"></div>
+           <div className="absolute bottom-0 -left-10 w-64 h-64 border-[15px] border-white transform rotate-12 opacity-40"></div>
+           <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjgiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNMCAwdjhINFIwaHoiIGZpbGw9IiMwMDAiLz48L3N2Zz4=')]"></div>
+        </div>
       )}
       {activeStressLevel === 'chill' && (
-        <div className="absolute inset-0 pointer-events-none z-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-[#89CFF0] rounded-full"></div>
+          <div className="absolute bottom-20 right-10 w-full h-40 bg-[#FFB3D9] transform -rotate-12 translate-x-1/4"></div>
+          <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+PGNpcmNsZSBjeD0iNSIgY3k9IjUiIHI9IjIiIGZpbGw9IiMwMDAiLz48L3N2Zz4=')]"></div>
+        </div>
       )}
 
-      {/* TOP STATUS BAR (Integrated Date Design) */}
-      <div className="relative z-20 w-full bg-white border-b-[6px] border-black shadow-[0_4px_0_0_rgba(0,0,0,1)] px-4 py-4 sm:px-8 sm:py-6 flex justify-between items-center">
+      {/* TOP STATUS BAR (Pop Design) */}
+      <div className="relative z-20 w-full bg-white border-b-[6px] border-black shadow-[0_6px_0_0_#D0BFFF] px-4 py-4 sm:px-8 sm:py-6 flex justify-between items-center">
         
         {/* Left side: The 4 core stats */}
         <div className="flex items-start gap-3 sm:gap-6">
-          <StatIcon type="gpa" value={stats.gpa} />
-          <StatIcon type="mentality" value={stats.mentality} />
-          <StatIcon type="energy" value={stats.energy} />
-          <StatIcon type="experience" value={stats.experience} />
+          <StatIcon type="gpa" value={stats.gpa} previewDelta={previewStats?.gpa} />
+          <StatIcon type="mentality" value={stats.mentality} previewDelta={previewStats?.mentality} />
+          <StatIcon type="energy" value={stats.energy} previewDelta={previewStats?.energy} />
+          <StatIcon type="experience" value={stats.experience} previewDelta={previewStats?.experience} />
         </div>
 
         {/* Right side: Integrated Brutalist Date Badge */}
         <div className="flex flex-col items-end">
-          <div className="bg-black text-white px-3 py-1 sm:px-4 sm:py-2 border-[3px] border-black shadow-[4px_4px_0px_0px_#FFF066] transform rotate-2">
-            <span className="font-black uppercase tracking-widest text-xs sm:text-sm text-brand-yellow block text-right">
+          <div className="bg-[#FFB3D9] text-black px-3 py-1 sm:px-4 sm:py-2 border-[3px] border-black shadow-[4px_4px_0px_0px_#FFE066] transform rotate-2">
+            <span className="font-black uppercase tracking-widest text-xs sm:text-sm text-black block text-right">
               YEAR {dateObj.year}
             </span>
-            <span className="font-black uppercase tracking-tighter text-xl sm:text-3xl block text-right">
+            <span className="font-black uppercase tracking-tighter text-xl sm:text-3xl block text-right text-black">
               {dateObj.month} {dateObj.day}
             </span>
           </div>
         </div>
       </div>
 
-      {/* Main Play Area (Shifted slightly down to account for new top bar) */}
+      {/* Main Play Area */}
       <div className="flex-1 flex flex-col items-center justify-start pt-12 sm:pt-16 px-6 pb-6 w-full max-w-lg mx-auto gap-8 sm:gap-12 z-10">
         
         {/* Feedback Overlay */}
@@ -178,7 +268,7 @@ export const GameScreen = ({
               exit={{ opacity: 0 }}
               className="z-50 absolute -top-4 left-0 right-0 flex justify-center px-4 pointer-events-none"
             >
-              <div className="bg-black text-white border-[4px] border-brand-yellow px-6 py-3 font-black text-center shadow-[6px_6px_0px_0px_#FFA6F6] text-base sm:text-lg max-w-sm transform rotate-1">
+              <div className="bg-[#89CFF0] text-black border-[4px] border-black px-6 py-3 font-black text-center shadow-[6px_6px_0px_0px_#000] text-base sm:text-lg max-w-sm transform rotate-1">
                 {feedbackText}
               </div>
             </motion.div>
@@ -194,28 +284,48 @@ export const GameScreen = ({
                 initial={{ opacity: 0, y: -10, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }} // A very smooth, custom cubic-bezier ease
-                className="bg-white border-[4px] border-black p-5 sm:p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform -rotate-1 relative w-full absolute"
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full"
               >
-                <div className="absolute -top-3 left-4 bg-brand-cyan text-black px-2 py-0.5 text-xs font-black border-[2px] border-black transform -rotate-3">
-                  {currentCard.category.toUpperCase()}
+                {/* Offset Shadow Layer (Pop Purple) */}
+                <div 
+                  className="absolute inset-0 bg-[#D0BFFF] transform translate-x-3 translate-y-3"
+                  style={{ clipPath: 'polygon(3% 0, 100% 5%, 97% 100%, 0 95%)' }}
+                ></div>
+                
+                {/* Main Text Box (Irregular Quadrilateral) */}
+                <div 
+                  className="bg-white border-[4px] border-black p-6 sm:p-8 relative w-full flex items-center justify-center"
+                  style={{ clipPath: 'polygon(3% 0, 100% 5%, 97% 100%, 0 95%)' }}
+                >
+                  {/* Category Tag (Glued to the top left) */}
+                  <div className="absolute top-2 left-4 bg-black text-[#89CFF0] px-3 py-1 text-sm font-black border-[2px] border-black transform -rotate-3 shadow-[2px_2px_0px_0px_#FFE066]">
+                    {currentCard.category.toUpperCase()}
+                  </div>
+                  
+                  <p className="text-black font-black text-xl sm:text-2xl leading-snug relative z-10 pt-4">
+                    {currentCard.text}
+                  </p>
                 </div>
-                <p className="text-black font-black text-xl sm:text-2xl leading-snug">
-                  {currentCard.text}
-                </p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
         {/* Card Area (Stack) */}
-        <div className="relative w-72 h-80 sm:w-80 sm:h-96 perspective-1000">
+        <div className="relative w-72 h-80 sm:w-80 sm:h-96 perspective-1000 mt-4">
           
-          {/* Card Back (Static underneath, visible when top card is swiped) */}
-          <div className="absolute inset-0 bg-black border-[6px] border-white rounded-xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden"
-               style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 10px, #222 10px, #222 20px)' }}>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-white/20 text-8xl font-black transform -rotate-12 select-none">G</span>
+          {/* Card Back (Pop Style) */}
+          <div className="absolute inset-0 bg-white border-[6px] border-black shadow-[8px_8px_0px_0px_#FFE066] overflow-hidden flex items-center justify-center transform rotate-2">
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iNCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==')] opacity-20"></div>
+            
+            {/* Giant jagged star/explosion shape in Mint Green */}
+            <div className="absolute w-[150%] h-[150%] bg-[#89CFF0] animate-pulse-slow" style={{ clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' }}></div>
+            
+            <div className="relative z-10 flex flex-col items-center transform -rotate-12 mix-blend-multiply">
+              <span className="text-black font-black text-4xl tracking-tighter leading-none bg-white px-2 py-1 transform translate-x-4 border-2 border-black">TAKE</span>
+              <span className="text-black font-black text-5xl tracking-tighter leading-none bg-white px-2 py-1 transform -translate-x-2 border-2 border-black">YOUR</span>
+              <span className="text-[#FFA6A6] font-black text-6xl tracking-tighter leading-none bg-black px-2 py-1 transform translate-x-2 border-4 border-black">TIME</span>
             </div>
           </div>
 
@@ -234,10 +344,12 @@ export const GameScreen = ({
                   dragConstraints={{ left: 0, right: 0 }}
                   dragElastic={0.8}
                   onDragEnd={handleDragEnd}
-                  style={{ x, rotate }}
+                  style={{ x, rotate, clipPath: 'polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%)' }}
                   animate={controls}
-                  className="w-full h-full bg-brand-yellow border-[6px] border-black rounded-xl cursor-grab active:cursor-grabbing flex flex-col overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative bg-cover bg-center"
+                  // P5 Style Card Shape: Clipped corners, heavy borders
+                  className="w-full h-full bg-white border-[6px] border-black cursor-grab active:cursor-grabbing flex flex-col overflow-hidden shadow-[10px_10px_0px_0px_#000] relative bg-cover bg-center"
                 >
+                  
                   {/* Left Choice Text (Appears when dragging LEFT, text on RIGHT) */}
                   <motion.div
                     style={{ opacity: leftOpacity }}
@@ -254,21 +366,61 @@ export const GameScreen = ({
                     {currentCard.choices.right.label}
                   </motion.div>
 
-                  {/* Character Portrait */}
-                  <div className="flex-1 flex items-center justify-center bg-brand-pink relative">
-                    {/* Subtle brutalist pattern inside portrait area */}
-                    <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '16px 16px' }}></div>
-                    <span className="text-[120px] sm:text-[140px] drop-shadow-[6px_6px_0px_rgba(0,0,0,1)] relative z-10 select-none">
+                  {/* Character Portrait Area */}
+                  <div className="flex-1 flex items-center justify-center bg-[#FDF9F1] relative">
+                    
+                    {/* Halftone / Comic burst background behind character */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-40">
+                      <div className="w-full h-full bg-[#FFB3D9]" style={{ clipPath: 'polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)' }}></div>
+                    </div>
+                    
+                    <span className="text-[120px] sm:text-[140px] relative z-10 select-none drop-shadow-[8px_8px_0px_rgba(0,0,0,1)]">
                       {currentCard.character === 'professor_x' ? '👨‍🏫' :
                        currentCard.character === 'roommate' ? '🧑‍🎤' :
                        currentCard.character === 'gym_coach' ? '🏋️' :
-                       currentCard.character === 'therapist' ? '🛋️' : '🧑‍🎓'}
+                       currentCard.character === 'therapist' ? '🛋️' : 
+                       currentCard.character === 'calendar' ? '🗓️' : 
+                       currentCard.character === 'consultant' ? '🧛' : 
+                       currentCard.character === 'laptop' ? '💻' : 
+                       currentCard.character === 'email' ? '📧' :
+                       currentCard.character === 'folder' ? '📁' :
+                       currentCard.character === 'phone' ? '📱' :
+                       currentCard.character === 'interviewer' ? '👔' :
+                       currentCard.character === 'language_test' ? '📚' :
+                       currentCard.character === 'math_book' ? '📐' :
+                       currentCard.character === 'pencil' ? '📝' :
+                       currentCard.character === 'parent' ? '👨‍👩‍👧' :
+                       currentCard.character === 'friend' ? '🍻' : '🧑‍🎓'}
                     </span>
                   </div>
 
-                  {/* Character Name */}
-                  <div className="h-16 sm:h-20 flex items-center justify-center bg-white border-t-[6px] border-black font-black uppercase text-xl sm:text-2xl tracking-tight z-10 select-none">
-                    {currentCard.character.replace('_', ' ')}
+                  {/* Character Name - Pop Ransom Note Style */}
+                  <div className="min-h-[5rem] py-3 flex items-center justify-center bg-black border-t-[6px] border-black z-10 select-none relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iMjAiIHkyPSIyMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=')] opacity-30"></div>
+                    <div className="flex flex-wrap justify-center items-center gap-[2px] sm:gap-1 px-4 relative z-10 w-full">
+                      {currentCard.character.replace('_', ' ').split('').map((char, i, arr) => {
+                        if (char === ' ') return <span key={i} className="w-2 sm:w-3"></span>;
+                        
+                        const isLong = arr.length > 9;
+                        const seed = char.charCodeAt(0) + i;
+                        const isColored = seed % 2 === 0;
+                        const colorClass = seed % 3 === 0 ? 'bg-[#FFE066] text-black' : (seed % 3 === 1 ? 'bg-[#89CFF0] text-black' : 'bg-[#FFB3D9] text-black');
+                        const rotation = seed % 3 === 0 ? 'rotate-6' : (seed % 3 === 1 ? '-rotate-6' : '-rotate-3');
+                        const translateY = seed % 2 === 0 ? 'translate-y-0.5' : '-translate-y-0.5';
+                        
+                        return (
+                          <span key={i} className={`
+                            font-black uppercase 
+                            ${isLong ? 'text-lg sm:text-xl px-1' : 'text-2xl sm:text-3xl px-1.5'}
+                            py-0.5 transform transition-none inline-block
+                            ${rotation} ${translateY}
+                            ${isColored ? colorClass : 'bg-white text-black'} 
+                          `}>
+                            {char}
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -289,23 +441,24 @@ export const GameScreen = ({
           QUIT TO MENU
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 /**
  * Smartwatch Ring Status Indicator (Design 3)
  * Extremely clear numerical display with a brutalist circular progress ring.
+ * Now supports `previewDelta` to show animated hints when swiping.
  */
-const StatIcon = ({ type, value }: { type: 'gpa' | 'mentality' | 'energy' | 'experience', value: number }) => {
+const StatIcon = ({ type, value, previewDelta }: { type: 'gpa' | 'mentality' | 'energy' | 'experience', value: number, previewDelta?: number }) => {
   const percentage = Math.max(0, Math.min(100, value));
   
-  // Use hex colors for direct SVG stroke injection
+  // Use hex colors for direct SVG stroke injection (P5 Palette)
   const hexColors = {
-    gpa: "#A6FAFF",      // brand-cyan
-    mentality: "#FFA6F6",// brand-pink
-    energy: "#FFF066",   // brand-yellow
-    experience: "#B8FF9F"// brand-green
+    gpa: "#D0BFFF",      // Pastel Purple (replaced black to match Macaron palette)
+    mentality: "#FFA6A6",// Pastel Peach
+    energy: "#FFE066",   // Pastel Lemon
+    experience: "#89CFF0"// Pastel Blue
   };
   
   const labels = {
@@ -322,11 +475,38 @@ const StatIcon = ({ type, value }: { type: 'gpa' | 'mentality' | 'energy' | 'exp
   const radius = 34; // The radius of the colored stroke
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
+  
+  // Preview visual logic
+  const isPreviewing = previewDelta !== undefined && previewDelta !== 0;
+  const isPositive = previewDelta ? previewDelta > 0 : false;
+  
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+      <motion.div 
+        className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center"
+        animate={isPreviewing ? {
+          scale: [1, 1.15, 1],
+          rotate: isPositive ? [0, 5, -5, 0] : [0, -5, 5, 0],
+        } : { scale: 1, rotate: 0 }}
+        transition={{ 
+          duration: 0.4, 
+          repeat: isPreviewing ? Infinity : 0, 
+          repeatType: "reverse" 
+        }}
+      >
         
+        {/* Preview Dot Indicator */}
+        <AnimatePresence>
+          {isPreviewing && (
+            <motion.div 
+              initial={{ scale: 0, opacity: 0, y: 10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0, opacity: 0 }}
+              className={`absolute top-1 right-1 z-30 w-4 h-4 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${isPositive ? 'bg-[#89CFF0]' : 'bg-[#FFA6A6]'}`}
+            />
+          )}
+        </AnimatePresence>
+
         {/* The brutalist badge background and shadow */}
         <svg 
           viewBox="0 0 100 100" 
@@ -356,14 +536,14 @@ const StatIcon = ({ type, value }: { type: 'gpa' | 'mentality' | 'energy' | 'exp
         
         {/* Number in the absolute center */}
         <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none">
-          <span className="font-black text-2xl sm:text-3xl leading-none text-black tracking-tighter">
+          <span className={`font-black text-2xl sm:text-3xl leading-none tracking-tighter transition-colors ${isPreviewing ? (isPositive ? 'text-[#89CFF0]' : 'text-[#FFA6A6]') : 'text-black'}`}>
             {Math.round(percentage)}
           </span>
         </div>
-      </div>
+      </motion.div>
       
       {/* Separated Label completely outside the graphic */}
-      <span className="text-sm sm:text-base font-black uppercase text-black bg-white border-[3px] border-black px-3 py-1 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] tracking-wide">
+      <span className={`text-xs sm:text-sm font-black uppercase border-[3px] border-black px-2 py-0.5 shadow-[3px_3px_0px_0px_#FFA6A6] tracking-wide transform -rotate-3 transition-colors ${isPreviewing ? (isPositive ? 'bg-[#89CFF0] text-black' : 'bg-[#FFA6A6] text-white') : 'bg-white text-black'}`}>
         {label}
       </span>
     </div>

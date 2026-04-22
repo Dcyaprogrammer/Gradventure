@@ -44,57 +44,115 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-brand-green flex flex-col font-sans p-4 sm:p-8 relative">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.15]" style={{ backgroundImage: 'radial-gradient(#000 3px, transparent 3px)', backgroundSize: '40px 40px' }}></div>
+    <div className="min-h-[100dvh] bg-[#89CFF0] flex flex-col font-sans p-4 sm:p-8 relative overflow-hidden">
+      {/* Background Graphic */}
+      <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'radial-gradient(#000 3px, transparent 4px)', backgroundSize: '24px 24px' }}></div>
       
-      <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col h-full">
+      {/* Giant Abstract Star/Explosion Background - Pop Adjusted */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[150vw] bg-[#FFE066] opacity-80 pointer-events-none" style={{ clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' }}></div>
+
+      <div className="relative z-10 w-full max-w-2xl mx-auto flex flex-col h-full bg-[#FDF9F1] border-[6px] border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
         {/* Header */}
-        <div className="flex justify-between items-center bg-white border-[6px] border-black p-4 mb-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transform rotate-1">
+        <div className="bg-white border-b-[6px] border-black p-3 sm:p-4 sticky top-0 z-20 flex items-center justify-between shadow-[0px_4px_0px_0px_#D0BFFF]">
           <button 
             onClick={onBack}
-            className="bg-black text-white font-black px-4 py-2 uppercase hover:bg-brand-yellow hover:text-black transition-colors border-2 border-transparent"
+            className="bg-black text-white font-black text-xs sm:text-sm px-3 py-1 border-[3px] border-black hover:bg-[#FFA6A6] hover:text-black transition-colors shadow-[3px_3px_0px_0px_#FFE066] hover:shadow-[3px_3px_0px_0px_#000] active:translate-y-0.5 active:translate-x-0.5 active:shadow-none flex items-center gap-1 transform -rotate-2"
           >
-            ← BACK
+            <span>←</span> <span className="hidden sm:inline">BACK</span>
           </button>
-          <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter">KNOWLEDGE BASE</h1>
+          <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-black flex-1 text-center transform rotate-1">
+            SURVIVAL GUIDE
+          </h1>
+          <div className="w-12 sm:w-24"></div> {/* Spacer for centering */}
         </div>
 
-        {/* Accordion Menu */}
-        <div className="flex flex-col gap-6">
-          {KNOWLEDGE_CATEGORIES.map((category) => (
-            <div key={category.id} className="w-full">
-              <button
-                onClick={() => toggleCategory(category.id)}
-                className={`w-full flex items-center justify-between p-6 border-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${category.color} transition-transform hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]`}
-              >
-                <div className="flex items-center gap-4">
-                  <span className="text-4xl bg-white border-4 border-black w-16 h-16 flex items-center justify-center rounded-full shadow-inner">{category.icon}</span>
-                  <h2 className="font-black text-2xl uppercase tracking-tight text-left">{category.title}</h2>
-                </div>
-                <span className="text-4xl font-black">{openCategory === category.id ? '−' : '+'}</span>
-              </button>
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-8 bg-[#FDF9F1] relative">
+          
+          {/* Subtle brutalist grid inside content area */}
+          <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
 
-              <AnimatePresence>
-                {openCategory === category.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden bg-white border-x-[6px] border-b-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mx-2 sm:mx-4 transform -translate-y-2"
-                  >
-                    <div className="p-6 sm:p-8 flex flex-col gap-6 pt-8">
-                      {category.points.map((point, index) => (
-                        <div key={index} className="border-l-[6px] border-brand-yellow pl-4">
-                          <h3 className="font-black text-xl mb-3 bg-black text-white inline-block px-3 py-1 transform -rotate-1">{point.title}</h3>
-                          <div className="font-bold text-gray-800 leading-relaxed whitespace-pre-wrap">
-                            {point.content}
-                          </div>
-                        </div>
-                      ))}
+          {KNOWLEDGE_CATEGORIES.map((category) => (
+            <div key={category.id} className="mb-10 relative z-10">
+              {/* Category Header - Pop Tag Style with Shadow Layer */}
+              <div className="relative inline-block mb-4 ml-2">
+                <div className="absolute inset-0 bg-black transform translate-x-2 translate-y-2 -rotate-1"></div>
+                <div className="relative bg-[#FFB3D9] text-black font-black uppercase text-sm sm:text-base px-4 py-2 border-[3px] border-black transform -rotate-3">
+                  <span className="mr-2">{category.icon}</span> {category.title}
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                {category.points.map((point, index) => {
+                  const itemId = `${category.id}-${index}`;
+                  const isExpanded = openCategory === itemId;
+                  
+                  return (
+                    <div 
+                      key={index} 
+                      className="relative group"
+                    >
+                      {/* Decorative Shadow Layer (Pop Style offset) */}
+                      <div className={`absolute inset-0 transition-colors duration-300 transform translate-x-1.5 translate-y-1.5 ${isExpanded ? 'bg-[#FFE066]' : 'bg-[#D0BFFF]'}`} style={{ clipPath: 'polygon(0 0, 100% 2%, 99% 100%, 1% 98%)' }}></div>
+                      
+                      {/* Main Item Container */}
+                      <div 
+                        className={`border-[4px] border-black transition-all duration-300 relative z-10 ${isExpanded ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-50'}`}
+                        style={{ clipPath: isExpanded ? 'polygon(1% 0, 100% 2%, 99% 100%, 0 98%)' : 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }}
+                      >
+                        <button 
+                          onClick={() => toggleCategory(itemId)}
+                          className="w-full text-left p-3 sm:p-4 font-black text-sm sm:text-base flex justify-between items-center relative overflow-hidden"
+                        >
+                          {/* Halftone texture overlay on button hover */}
+                          <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity pointer-events-none" style={{ backgroundImage: 'radial-gradient(#FFE066 2px, transparent 2px)', backgroundSize: '8px 8px' }}></div>
+                          
+                          <span className="uppercase tracking-tighter pr-4 leading-snug z-10 relative">
+                            {/* Numbering Tag */}
+                            <span className={`inline-block mr-2 px-2 py-0.5 border-[2px] border-black transform -rotate-2 ${isExpanded ? 'bg-white text-black' : 'bg-black text-white'}`}>
+                              #0{index + 1}
+                            </span>
+                            {point.title}
+                          </span>
+                          
+                          <span className={`text-2xl font-black transform transition-transform duration-300 z-10 relative ${isExpanded ? 'rotate-45 text-[#FFE066]' : 'group-hover:scale-125 group-hover:text-[#FFA6A6]'}`}>
+                            {isExpanded ? '✖' : '+'}
+                          </span>
+                        </button>
+                        
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div 
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden bg-[#FDF9F1] text-black border-t-[4px] border-black relative"
+                            >
+                              {/* Inner background texture for content */}
+                              <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iMjAiIHkyPSIyMCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=')]"></div>
+                              
+                              <div className="p-4 sm:p-5 text-sm sm:text-base font-bold leading-relaxed relative z-10">
+                                {point.content.split('\n').map((paragraph, pIndex) => (
+                                  <p key={pIndex} className="mb-3 last:mb-0">
+                                    {paragraph.trim().startsWith('•') ? (
+                                      <span className="flex gap-2 items-start">
+                                        <span className="text-[#FFA6A6] font-black mt-0.5">▶</span>
+                                        <span>{paragraph.replace('•', '').trim()}</span>
+                                      </span>
+                                    ) : (
+                                      paragraph
+                                    )}
+                                  </p>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  );
+                })}
+              </div>
             </div>
           ))}
         </div>

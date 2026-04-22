@@ -56,14 +56,14 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
         <div className="bg-white border-b-[6px] border-black p-3 sm:p-4 sticky top-0 z-20 flex items-center justify-between shadow-[0px_4px_0px_0px_#D0BFFF]">
           <button 
             onClick={onBack}
-            className="bg-black text-white font-black text-xs sm:text-sm px-3 py-1 border-[3px] border-black hover:bg-[#FFA6A6] hover:text-black transition-colors shadow-[3px_3px_0px_0px_#FFE066] hover:shadow-[3px_3px_0px_0px_#000] active:translate-y-0.5 active:translate-x-0.5 active:shadow-none flex items-center gap-1 transform -rotate-2"
+            className="bg-black text-white font-black text-xs sm:text-sm px-3 py-1 border-[3px] border-black hover:bg-[#FFA6A6] hover:text-black transition-colors shadow-[3px_3px_0px_0px_#FFE066] hover:shadow-[3px_3px_0px_0px_#000] active:translate-y-0.5 active:translate-x-0.5 active:shadow-none flex items-center gap-1 transform -rotate-2 shrink-0"
           >
             <span>←</span> <span className="hidden sm:inline">BACK</span>
           </button>
-          <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-black flex-1 text-center transform rotate-1">
+          <h1 className="text-base sm:text-2xl font-black uppercase tracking-tighter text-black flex-1 text-center transform rotate-1 truncate px-2 min-w-0">
             SURVIVAL GUIDE
           </h1>
-          <div className="w-12 sm:w-24"></div> {/* Spacer for centering */}
+          <div className="w-12 sm:w-24 shrink-0"></div> {/* Spacer for centering */}
         </div>
 
         {/* Content */}
@@ -102,12 +102,12 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
                       >
                         <button 
                           onClick={() => toggleCategory(itemId)}
-                          className="w-full text-left p-3 sm:p-4 font-black text-sm sm:text-base flex justify-between items-center relative overflow-hidden"
+                          className="w-full text-left p-3 sm:p-4 font-black text-sm sm:text-base flex justify-between items-center relative overflow-hidden gap-2"
                         >
                           {/* Halftone texture overlay on button hover */}
                           <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity pointer-events-none" style={{ backgroundImage: 'radial-gradient(#FFE066 2px, transparent 2px)', backgroundSize: '8px 8px' }}></div>
                           
-                          <span className="uppercase tracking-tighter pr-4 leading-snug z-10 relative">
+                          <span className="uppercase tracking-tighter leading-snug z-10 relative flex-1">
                             {/* Numbering Tag */}
                             <span className={`inline-block mr-2 px-2 py-0.5 border-[2px] border-black transform -rotate-2 ${isExpanded ? 'bg-white text-black' : 'bg-black text-white'}`}>
                               #0{index + 1}
@@ -115,7 +115,7 @@ export const KnowledgeBaseScreen = ({ onBack }: { onBack: () => void }) => {
                             {point.title}
                           </span>
                           
-                          <span className={`text-2xl font-black transform transition-transform duration-300 z-10 relative ${isExpanded ? 'rotate-45 text-[#FFE066]' : 'group-hover:scale-125 group-hover:text-[#FFA6A6]'}`}>
+                          <span className={`text-2xl font-black transform transition-transform duration-300 z-10 relative shrink-0 ${isExpanded ? 'rotate-45 text-[#FFE066]' : 'group-hover:scale-125 group-hover:text-[#FFA6A6]'}`}>
                             {isExpanded ? '✖' : '+'}
                           </span>
                         </button>

@@ -48,15 +48,20 @@ function App() {
     );
   }
 
-  if (isLoading) {
-    return loadingFallback;
-  }
+  // Instead of waiting for auth to finish loading, we render the UI immediately
+  // and handle the play click based on whether auth is ready or not.
+  // if (isLoading) {
+  //   return loadingFallback;
+  // }
 
   // Generate warning tape text (Grad school application themed)
   const warningText = "⚠ GPA WARNING ⚠ GRE EXAM FAILED ⚠ PROFESSOR GHOSTED YOU ⚠ REJECTED ⚠ DEADLINE MISSED ⚠ NO FUNDING ⚠ ";
   const tapeArray = Array(15).fill(warningText);
 
   const handlePlayClick = async () => {
+    // If still initializing auth, do not allow play yet (button will show loading state)
+    if (isLoading) return;
+    
     if (user) {
       setCurrentView('game');
     } else {
@@ -120,11 +125,11 @@ function App() {
       <div className="z-10 w-full max-w-sm flex flex-col gap-4 relative">
         <motion.button 
           onClick={handlePlayClick}
-          whileHover={{ scale: 1.05, y: -4, rotate: -2 }}
-          whileTap={{ scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)", rotate: 0 }}
-          className="w-full font-black py-6 sm:py-8 px-6 border-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] uppercase text-4xl sm:text-5xl text-black flex justify-center items-center bg-[#FFE066] hover:bg-[#89CFF0] transition-colors"
+          whileHover={isLoading ? {} : { scale: 1.05, y: -4, rotate: -2 }}
+          whileTap={isLoading ? {} : { scale: 0.95, y: 0, boxShadow: "0px 0px 0px 0px rgba(0,0,0,1)", rotate: 0 }}
+          className={`w-full font-black py-6 sm:py-8 px-6 border-[6px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sm:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] uppercase text-4xl sm:text-5xl text-black flex justify-center items-center transition-colors ${isLoading ? 'bg-gray-300 cursor-not-allowed opacity-80' : 'bg-[#FFE066] hover:bg-[#89CFF0]'}`}
         >
-          {user ? 'PLAY' : 'START'}
+          {isLoading ? 'LOADING...' : (user ? 'PLAY' : 'START')}
         </motion.button>
 
         <div className="flex gap-4">

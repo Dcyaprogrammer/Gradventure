@@ -80,10 +80,17 @@ const normalizedBase = base.endsWith('/') ? base : `${base}/`;
                 </p>
                 <a href={`${normalizedBase}brainstorm/`} class="inline-block border-b-4 border-black pb-1 hover:bg-brand-accent hover:text-white hover:border-transparent transition-all font-display font-black text-xl">Read our Problem Statement →</a>
             </div>
-                <div class="aspect-video bg-white border-4 border-black flex items-center justify-center relative overflow-hidden shadow-neo-lg">
-                    <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
-                    <span class="font-mono font-bold text-black bg-brand-pink px-4 py-2">PROJECT_PREVIEW.img</span>
+            <div class="aspect-square bg-white border-4 border-black flex items-center justify-center relative overflow-hidden shadow-neo-lg group">
+                <div class="absolute inset-0 bg-grid-pattern opacity-10"></div>
+                <img 
+                    src={`${normalizedBase}app-qr.png`} 
+                    alt="Scan to play Gradventure" 
+                    class="w-3/4 h-3/4 object-contain relative z-10 group-hover:scale-105 transition-transform duration-300"
+                />
+                <div class="absolute bottom-4 bg-brand-yellow border-2 border-black px-3 py-1 font-bold text-sm transform -rotate-2 z-20">
+                    SCAN TO PLAY
                 </div>
             </div>
-        </Section>
+        </div>
+    </Section>
 </Layout>

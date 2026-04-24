@@ -152,12 +152,15 @@ const base = import.meta.env.BASE_URL;
                         </ul>
                     </div>
                     <div class="w-full md:w-2/3">
-                        <div class="bg-gray-100 border-4 border-black relative overflow-hidden w-full shadow-neo transform rotate-1 group">
+                        <div class="bg-gray-100 border-4 border-black relative overflow-hidden w-full shadow-neo transform rotate-1 group p-4">
                             <ImageZoom 
                                 src={`${base}lowfi.svg`} 
                                 alt="Low-Fidelity Prototype from Excalidraw" 
-                                class="w-full h-auto object-cover"
+                                class="w-full h-auto object-contain border-2 border-black bg-white"
                             />
+                            <div class="absolute bottom-4 right-4 bg-brand-yellow border-2 border-black px-3 py-1 font-bold text-sm transform -rotate-2 z-20 pointer-events-none">
+                                CLICK TO ZOOM
+                            </div>
                         </div>
                     </div>
                 </div>

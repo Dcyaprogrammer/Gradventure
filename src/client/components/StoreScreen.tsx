@@ -75,12 +75,13 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
               const isBought = purchased[item.id];
               const canAfford = currency >= item.cost;
               const isEven = index % 2 === 0;
+              const isUnaffordable = !isBought && !canAfford;
 
               return (
                 <div key={item.id} className="relative group pt-2 sm:pt-3 pr-2 sm:pr-3">
                   {/* Decorative Pop Shadow Layer behind item */}
                   <div 
-                    className={`absolute inset-0 mt-2 sm:mt-3 mr-2 sm:mr-3 transform translate-x-2 translate-y-2 sm:translate-x-3 sm:translate-y-3 transition-colors ${isBought ? 'bg-[#CCC]' : canAfford ? 'bg-[#89CFF0]' : 'bg-[#FFA6A6]'}`}
+                    className={`absolute inset-0 mt-2 sm:mt-3 mr-2 sm:mr-3 transform translate-x-2 translate-y-2 sm:translate-x-3 sm:translate-y-3 transition-colors ${isBought ? 'bg-[#CCC]' : isUnaffordable ? 'bg-[#BDBDBD]' : 'bg-[#89CFF0]'}`}
                     style={{ clipPath: isEven ? 'polygon(2% 0, 100% 2%, 98% 100%, 0 98%)' : 'polygon(0 2%, 98% 0, 100% 98%, 2% 100%)' }}
                   ></div>
 
@@ -89,11 +90,26 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
                     ${item.cost}
                   </div>
 
+                  {/* Not enough cash sticker */}
+                  {isUnaffordable && (
+                    <div className="absolute -bottom-2 left-0 z-20 bg-black text-white px-2 py-1 border-[2px] sm:border-[3px] border-white font-black text-[10px] sm:text-xs uppercase tracking-wider shadow-[2px_2px_0px_0px_#000] transform -rotate-2">
+                      NOT ENOUGH 💰
+                    </div>
+                  )}
+
                   {/* Physical Box/Item */}
                   <motion.div 
                     whileHover={!isBought ? { scale: 1.02, rotate: isEven ? -1 : 1, y: -2 } : {}}
-                    className={`bg-white border-[3px] sm:border-[5px] border-black flex flex-col items-center p-3 sm:p-5 text-center relative z-10 h-full ${isBought ? 'opacity-60 grayscale' : ''}`}
+                    className={`bg-white border-[3px] sm:border-[5px] border-black flex flex-col items-center p-3 sm:p-5 text-center relative z-10 h-full ${
+                      isBought ? 'opacity-60 grayscale' : isUnaffordable ? 'opacity-55 grayscale' : ''
+                    }`}
                     style={{ clipPath: isEven ? 'polygon(2% 0, 100% 2%, 98% 100%, 0 98%)' : 'polygon(0 2%, 98% 0, 100% 98%, 2% 100%)' }}
+                    onClick={() => setSelectedItem(item)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') setSelectedItem(item)
+                    }}
                   >
                     {/* Icon Display */}
                     <div className="relative mt-1 mb-3 sm:mt-2 sm:mb-5">
@@ -114,17 +130,19 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
                     
                     {/* Buy Button */}
                     <button
-                      onClick={() => setSelectedItem(item)}
-                      disabled={isBought || !canAfford}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedItem(item);
+                      }}
                       className={`w-full py-2 sm:py-3 border-[2px] sm:border-[4px] border-black font-black uppercase tracking-widest text-[10px] sm:text-xl transition-all transform ${
                         isBought 
                           ? 'bg-[#E5E5E5] text-black cursor-not-allowed rotate-0'
-                          : canAfford
-                            ? 'bg-black text-[#89CFF0] hover:bg-[#89CFF0] hover:text-black active:translate-y-1 rotate-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]'
-                            : 'bg-[#FFA6A6] text-black opacity-90 cursor-not-allowed -rotate-1'
+                          : isUnaffordable
+                            ? 'bg-[#E5E5E5] text-black opacity-90 -rotate-1'
+                            : 'bg-black text-[#89CFF0] hover:bg-[#89CFF0] hover:text-black active:translate-y-1 rotate-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)] sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]'
                       }`}
                     >
-                      {isBought ? 'OWNED' : canAfford ? 'PURCHASE' : 'TOO BROKE'}
+                      {isBought ? 'OWNED' : isUnaffordable ? 'DETAILS' : 'DETAILS'}
                     </button>
 
                     {/* Sold Out Stamp Overlay */}
@@ -162,52 +180,82 @@ export const StoreScreen = ({ onBack }: { onBack: () => void }) => {
               exit={{ scale: 0.9, y: 20, rotate: 2 }}
               className="relative w-full max-w-sm mt-8"
             >
-              {/* Decorative Tag */}
-              <div className="absolute -top-6 -left-4 z-20 bg-black text-white px-4 py-1 border-[3px] border-white font-black text-lg sm:text-xl transform -rotate-6 shadow-[4px_4px_0px_0px_#89CFF0]">
-                CONFIRM DECODER
-              </div>
-              
-              {/* Shadow Background Layer */}
-              <div 
-                className="absolute inset-0 bg-[#FFB3D9] transform translate-x-3 translate-y-3"
-                style={{ clipPath: 'polygon(2% 0, 100% 2%, 98% 100%, 0 98%)' }}
-              ></div>
+              {(() => {
+                const isBought = purchased[selectedItem.id];
+                const canAfford = currency >= selectedItem.cost;
+                const isUnaffordable = !isBought && !canAfford;
 
-              {/* Main Content Card (Clipped) */}
-              <div
-                className="bg-white border-[6px] border-black p-6 sm:p-8 relative z-10 w-full"
-                style={{ clipPath: 'polygon(2% 0, 100% 2%, 98% 100%, 0 98%)' }}
-              >
-                <div className="text-center mt-4">
-                <div className="text-6xl sm:text-7xl mb-4 bg-white w-24 h-24 mx-auto flex items-center justify-center rounded-full border-[4px] border-black shadow-[6px_6px_0px_0px_#D0BFFF]">
-                  {selectedItem.icon}
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-black uppercase mb-4 leading-tight">{selectedItem.name}</h2>
-                <div className="bg-[#FFE066] text-black p-4 mb-6 border-[3px] border-black transform rotate-1 shadow-[4px_4px_0px_0px_#000]">
-                  <p className="text-sm sm:text-base font-bold border-l-[4px] border-black pl-3 text-left leading-snug">
-                    {selectedItem.desc}
-                  </p>
-                </div>
-                
-                <div className="flex gap-3 sm:gap-4">
-                  <button 
-                    onClick={() => setSelectedItem(null)}
-                    className="flex-1 py-3 border-[3px] sm:border-[4px] border-black font-black uppercase tracking-wider bg-white text-black hover:bg-gray-200 transition-colors active:translate-y-1 transform -rotate-1 text-sm sm:text-base"
-                  >
-                    CANCEL
-                  </button>
-                  <button 
-                    onClick={() => {
-                      handleBuy(selectedItem.id, selectedItem.cost);
-                      setSelectedItem(null);
-                    }}
-                    className="flex-[1.5] py-3 border-[3px] sm:border-[4px] border-black font-black uppercase tracking-wider bg-[#89CFF0] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-[#FFE066] hover:text-black active:translate-y-1 active:shadow-none transition-all transform rotate-1 text-sm sm:text-base"
-                  >
-                    PAY - {selectedItem.cost}💰
-                  </button>
-                </div>
-              </div>
-              </div>
+                return (
+                  <>
+                    {/* Decorative Tag */}
+                    <div className="absolute -top-6 -left-4 z-20 bg-black text-white px-4 py-1 border-[3px] border-white font-black text-lg sm:text-xl transform -rotate-6 shadow-[4px_4px_0px_0px_#89CFF0]">
+                      CONFIRM DECODER
+                    </div>
+
+                    {/* Shadow Background Layer */}
+                    <div
+                      className="absolute inset-0 bg-[#FFB3D9] transform translate-x-3 translate-y-3"
+                      style={{ clipPath: 'polygon(2% 0, 100% 2%, 98% 100%, 0 98%)' }}
+                    />
+
+                    {/* Main Content Card (Clipped) */}
+                    <div
+                      className="bg-white border-[6px] border-black p-6 sm:p-8 relative z-10 w-full"
+                      style={{ clipPath: 'polygon(2% 0, 100% 2%, 98% 100%, 0 98%)' }}
+                    >
+                      <div className="text-center mt-4">
+                        <div className="text-6xl sm:text-7xl mb-4 bg-white w-24 h-24 mx-auto flex items-center justify-center rounded-full border-[4px] border-black shadow-[6px_6px_0px_0px_#D0BFFF]">
+                          {selectedItem.icon}
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-black uppercase mb-4 leading-tight">
+                          {selectedItem.name}
+                        </h2>
+                        <div className="bg-[#FFE066] text-black p-4 mb-6 border-[3px] border-black transform rotate-1 shadow-[4px_4px_0px_0px_#000]">
+                          <p className="text-sm sm:text-base font-bold border-l-[4px] border-black pl-3 text-left leading-snug">
+                            {selectedItem.desc}
+                          </p>
+                        </div>
+
+                        {isBought ? (
+                          <div className="bg-[#E5E5E5] text-black border-[3px] border-black p-3 mb-5 font-black shadow-[4px_4px_0px_0px_#000] uppercase">
+                            ✅ Already owned
+                          </div>
+                        ) : null}
+
+                        <div className="flex gap-3 sm:gap-4">
+                          <button
+                            onClick={() => setSelectedItem(null)}
+                            className="flex-1 py-3 border-[3px] sm:border-[4px] border-black font-black uppercase tracking-wider bg-white text-black hover:bg-gray-200 transition-colors active:translate-y-1 transform -rotate-1 text-sm sm:text-base"
+                          >
+                            CANCEL
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (isBought || isUnaffordable) return;
+                              handleBuy(selectedItem.id, selectedItem.cost);
+                              setSelectedItem(null);
+                            }}
+                            disabled={isBought || isUnaffordable}
+                            className={`flex-[1.5] py-3 border-[3px] sm:border-[4px] border-black font-black uppercase tracking-wider text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all transform rotate-1 text-sm sm:text-base ${
+                              isBought
+                                ? 'bg-[#E5E5E5] cursor-not-allowed opacity-90'
+                                : isUnaffordable
+                                  ? 'bg-[#BDBDBD] cursor-not-allowed opacity-90'
+                                  : 'bg-[#89CFF0] hover:bg-[#FFE066] hover:text-black active:translate-y-1 active:shadow-none'
+                            }`}
+                          >
+                            {isBought
+                              ? 'OWNED'
+                              : isUnaffordable
+                                ? 'NOT ENOUGH 💰'
+                                : `PAY - ${selectedItem.cost}💰`}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </motion.div>
           </motion.div>
         )}
